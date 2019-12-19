@@ -1,0 +1,35 @@
+.custom_modal_confirm_box .modal-dialog {
+    -moz-transition: none;
+    -o-transition: none;
+    -webkit-transition: none;
+    transition: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    -webkit-transform: none;
+    transform: none;
+}
+
+.custom_height_width {
+    height: auto;
+    min-height: 30px;
+    line-height: 20px;
+    font-weight: 500;
+    text-align: justify;
+}
+
+.top-45 {
+    top: 41%
+}
+
+.footer_custom {
+    height: 35px;
+}
+
+.header_custom {
+    height: 35px;
+}
+
+.padding_5px_imp {
+    padding: 5px !important;
+}

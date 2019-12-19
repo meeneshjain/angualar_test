@@ -1,0 +1,1 @@
+gXMLBuffer ="<?xml version=\"1.0\" encoding=\"utf-8\" ?><data  src=\"toc.js\"  name=\"Import of Data from SAP Business One\"><item name=\"Data Collection\" url=\"Data_Collection.htm\" /><item name=\"Item Master Data\" url=\"Item_Master_Data.htm\" /></data>";

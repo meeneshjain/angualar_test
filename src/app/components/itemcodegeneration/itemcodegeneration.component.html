@@ -1,0 +1,142 @@
+
+<!-- loader start -->
+<div class="opti_loader opti_loader-module-grid-list" *ngIf="showLoader">
+    <div class="opti_spinner"></div>
+</div>
+<!-- loader end --> 
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+  <div class="opti_module-title"> {{page_main_title}} </div>
+</div>
+<ol class="breadcrumb breadcrumb_mini_margin">
+  <!--  <li class="breadcrumb-item" style="display:none;">
+    <a href="javascript:;" routerLink="/home">{{language.dashboard}}</a>
+  </li> -->
+  <li class="breadcrumb-item ">
+    <a routerLink="{{view_route_link}}" href="javascript:;">{{page_main_title}}</a>
+  </li>
+  <li class="breadcrumb-item active">{{language.add}}</li>
+</ol>
+<!-- new design -->
+
+<div class="card mb-3">
+  <form class="form-horizontal">
+    <!-- <div class="card-header">
+      <i class="fa fa-book-open"></i> {{language.add_itemcode}}</div> -->
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-md-6 p-0">
+          <div class="form-group">
+            <label style="padding-left:15px;" class="control-label col-sm-2 float-left" for="feature">{{language.code}}</label>
+            <div class="col-sm-5 float-left">
+              <input type="text" [disabled]="!isCodeDisabled" class="form-control form-control-sm" placeholder="{{language.code}}" id="usrID" maxlength="50"
+                name="code" (change)="CheckDuplicateCode()" [(ngModel)]="codekey" #inputBox title="{{codekey}}" (blur)="onCodeStrBlur(codekey)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <hr> -->
+
+      <div class="row">
+        <div class="col-sm-12" style="margin-bottom: 0.8rem;">
+          <a *ngIf="showAddRowbtn" href="javascript:;" class="btn btn-outline-primary btn-sm mt-1" title="{{language.add_row}} " (click)="onAddRow(0)"
+            #button>
+            <i class="fa fa-plus"></i> {{language.add_row}}
+          </a>
+        </div>
+      </div>
+   
+      <div class="col-sm-12 p-0">
+        <div class="">
+          <kendo-grid [kendoGridBinding]="itemcodetable"  [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false">
+
+            <kendo-grid-column field="rowindex" title="#" [width]="35" [minResizableWidth]="35" filter="numeric">
+            </kendo-grid-column>
+            <kendo-grid-column field="stringtypevalue" title="{{language.string_number}}" [width]="105" [minResizableWidth]="105">
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="dropdown_index">
+                <select class="form-control  form-control-sm" #selectedvalue (change)="onStringTypeSelectChange(selectedvalue.value, dataItem.rowindex)">
+                  <option *ngFor="let v of stringtypevalue " [value]="v.value" [selected]="dataItem.stringtype==v.value"> {{v.Name}}</option>
+                </select>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="string" title="{{language.string}}" filter="text" [width]="430" [minResizableWidth]="430">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <input type="text" class="form-control  form-control-sm" id="stringtxt" value={{dataItem.string}} title="{{dataItem.string}}" #stringtxtvalue
+                (blur)="onStrBlur(stringtxtvalue.value, dataItem.rowindex, dataItem.stringtype)" />
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="operations" title="{{language.operations}}" filter="text" [width]="105" [minResizableWidth]="105">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <select class="form-control  form-control-sm" #selectedoperationvalue [disabled]="dataItem.isOperationDisable" (change)="onStringOperationsSelectChange(selectedoperationvalue.value, dataItem.rowindex)">
+                  <option *ngFor="let v of opertions " [value]="v.value" [selected]="dataItem.operations==v.value"> {{v.Name}}</option>
+                </select>
+
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="delete" title="" template="" [width]="60" [minResizableWidth]="60">
+              <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                <i class="fa fa-trash"></i>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <button type="button" class="btn btn-outline-danger btn-sm" (click)="onDeleteRow(dataItem.rowindex)" title="{{this.language.delete}}">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </ng-template>
+            </kendo-grid-column>
+          </kendo-grid>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row clearfix">
+            <label style="padding-left:15px;" class="control-label col-sm-2 float-left" for="feature">{{language.final_string}}</label>
+            <div class="col-sm-5 float-left">
+              <input type="text" class="form-control form-control-sm" placeholder="{{language.final_string}}" name="finaltxtstring" [(ngModel)]="finalstring" title="{{finalstring}}"
+                id="finalstring" [readonly]="true">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="card-footer small text-muted">
+      <div class="footer-buttons">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="pull-left">
+              <button type="button" (click)="onSaveClick()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-primary  mr-10">
+                <i class="fa fa-save"></i> {{language.save}}</button>
+              <button type="button" (click)="onSaveClick()" *ngIf="isUpdateButtonVisible" class="btn btn-sm btn-primary mr-10">
+                <i class="fa fa-save"></i> {{language.update}}</button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="pull-right">
+              <button type="button" class="btn btn-sm btn-danger pr-1 mr-10" *ngIf="isDeleteButtonVisible" (click)="onDeleteClick()">
+                <i class="fa fa-trash"></i>
+                <span> {{language.delete}}</span>
+              </button>
+              <!-- only view when edit mode -->
+              <button type="button" routerLink="{{view_route_link}}" class="btn btn-sm btn-secondary mr-10 pl-1">
+                <i class="fa fa-times"></i>
+                <span> {{language.cancel}}</span>
+              </button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<!--Custom Dialog-->
+<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)"></app-custom-dialogs>

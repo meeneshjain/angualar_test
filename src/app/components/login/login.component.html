@@ -1,0 +1,97 @@
+
+
+
+<div class="top-content">
+
+  <div class="inner-bg">
+    <div class="container">
+      <div class="row mt-sm-0 mt-3">
+        <div class="ml-auto mr-auto col-sm-5 col-sm-offset-2 text-center text">
+          <!-- <h1> {{page_title}} </h1> -->
+          <img src="{{imgPath}}/logo_configurator/logo/logo.png" height="120">
+        </div>
+      </div>
+      <div class="row">
+        <div class="ml-auto mr-auto col-sm-5 form-box p-0">
+          <div class="form-top">
+            <div class="form-top-left">
+              <h3>{{login}}</h3>
+              <p>{{titleInfo}}</p>
+            </div>
+            <div class="form-top-right">
+              <i class="fa fa-key"></i>
+            </div>
+          </div>
+          <div class="form-bottom">
+
+              <div class="opti_loader loginloader"  *ngIf="connectButtonLoader">
+                <div class="opti_spinner"></div>
+              </div>
+              <div class="loader-wrapper" *ngIf="showLoginLoader">
+                <div class='loader'>
+                  <div class='loader_overlay'></div>
+                  <div class='loader_cogs'>
+                    <div class='loader_cogs__top'>
+                      <div class='top_part'></div>
+                      <div class='top_part'></div>
+                      <div class='top_part'></div>
+                      <div class='top_hole'></div>
+                    </div>
+                    <div class='loader_cogs__left'>
+                      <div class='left_part'></div>
+                      <div class='left_part'></div>
+                      <div class='left_part'></div>
+                      <div class='left_hole'></div>
+                    </div>
+                    <div class='loader_cogs__bottom'>
+                      <div class='bottom_part'></div>
+                      <div class='bottom_part'></div>
+                      <div class='bottom_part'></div>
+                      <div class='bottom_hole'><!-- lol --></div>
+                    </div>
+                  </div>
+                </div>  
+              </div>
+
+
+            <form role="form" action="" method="post" class="login-form" (keydown)="enter_to_sublit($event)">
+              <div class="form-group">
+                <label class="sr-only" for="form-username">{{username}}</label>
+                <input type="text" name="form-username" placeholder="{{isUsernameBlank}}" class="form-username form-control" id="form-username" #username [disabled]="onConnectSuccess" autofocus="autofocus"  [(ngModel)]="loginCredentials.userName" (change)="onUserNameBlur()">
+              </div>
+              <div class="form-group">
+                <label class="sr-only" for="form-password">{{password}}</label>
+                <input type="password" name="form-password" placeholder="{{isPasswordBlank}}" class="form-password form-control" id="form-password" [disabled]="onConnectSuccess" [(ngModel)]="loginCredentials.password" (change)="onPasswordBlur()">
+              </div>
+              <button type="button" class="btn btn-blue" [disabled]="onConnectSuccess" (click)="onConnectBtnPress()" ><i class="fa fa-plug"></i> {{connectBtnText}}</button>
+              <div class="company_section" >
+              <hr>
+                <div class="form-group" *ngIf="showCompDropDown">
+                  <label class="sr-only" for="form-company">{{language.company}}</label>
+                  <select type="company" name="form-company" class="form-username form-control" id="form-company" [(ngModel)]="selecetedComp">
+                    <option value="" [selected]="selecetedComp==''">{{language.select_company}}</option>
+                    <!-- <option value="aps">APS</option>
+                    <option value="configurator">Configurator</option> -->
+                    <option *ngFor="let cmp of assignedCompanies" [ngValue]="cmp">{{cmp.OPTM_COMPID}} ({{cmp.cmpName}})</option>
+                  </select>
+                </div>
+                <button type="button" class="btn btn-sm btn-green mr-4 width-45" (click)="getLisenceData()" *ngIf="showLoginBtn"><i class="fa fa-sign-in" ></i> {{login_btn}}</button>
+
+                <button type="button" class="btn btn-sm btn-secondary width-45" (click)="onResetClick()" *ngIf="showLoginBtn" > <i class="fa fa-refresh"></i> {{reset_button_text}}</button>
+              </div>
+            </form>
+          </div>
+          <p class="text-center text-white mt-2">Version - {{appVersion}}</p>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+</div>
+
+
+
+<div class="backstretch" [style.background-image]="'url('+ background +')'" style="left: 0px; top: 0px; overflow: hidden; margin: 0px; padding: 0px; height: 100vh; width: 100%; z-index: 0; position: fixed; background-position: center;background-size: cover;background-repeat: no-repeat;">
+  <!-- <img [src]="background" style="/* position: absolute; */margin: 0px;padding: 0px;border: none; width: 100%;height: 971px;max-height: none;max-width: none;z-index: -999999;left: -53.25px;top: 0px;"> -->
+</div>

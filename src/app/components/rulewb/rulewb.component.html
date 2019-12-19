@@ -1,0 +1,641 @@
+<!-- loader start -->
+<div class="opti_loader opti_loader-module-grid-list" *ngIf="showLoader">
+  <div class="opti_spinner"></div>
+</div>
+<!-- loader end -->
+
+<!-- loader start for lookup -->
+<div class="opti_loader opti_loader-module-grid-list opti_lookup-loader" *ngIf="showLookupLoader">
+  <div class="opti_spinner"></div>
+</div>
+<!-- loader end for lookup -->
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+  <div class="opti_module-title">
+    {{page_main_title}}
+  </div>
+</div>
+<ol class="breadcrumb breadcrumb_mini_margin">
+  <!--  <li class="breadcrumb-item">
+      <a href="javascript:;" routerLink="/home">{{language.dashboard}}</a>
+    </li> -->
+  <li class="breadcrumb-item ">
+    <a routerLink="{{view_route_link}}" href="javascript:;">{{page_main_title}}</a>
+  </li>
+  <li class="breadcrumb-item active">{{language.add}}</li>
+</ol>
+<!-- new design -->
+
+<div class="card mb-3">
+  <form class="form-horizontal">
+    <!-- <div class="card-header">
+  <i class="fa fa-book-open"></i> {{language.add_itemcode}}</div> -->
+    <div class="card-body">
+      <!-- <div class="form-group row clearfix">
+          <label class="col-sm-2 col-form-label" for="featureItemCode">{{language.rule_id}}</label>
+  
+          <div class="col-sm-4 input-group">
+            <input type="text" ngValue="1" class="form-control  form-control-sm mt3" [(ngModel)]="rule_wb_data.id" name="featureName"
+              [disabled]="isModelIdEnable" id="rulewbid" placeholder="{{language.rule_id}}" #Modelinputbox>
+  
+          </div>
+  
+        </div> -->
+
+      <div class="row">
+        <div class="col-md-6">
+
+          <div class="form-group row clearfix">
+            <label class="col-sm-3 col-form-label" for="rule_code">{{language.rule_code}}</label>
+            <div class="col-sm-5">
+              <input type="text" name="rule_code" class="form-control form-control-sm" maxlength="50" id="rule_code"
+                placeholder="{{language.name}}" [(ngModel)]="rule_wb_data.rule_code" #rulecode
+                title="{{rule_wb_data.rule_code}}" tabindex="1" [disabled]="code_disabled" (change)="detect_change()">
+            </div>
+
+            <!-- <label class="opt_custome-label col-form-label" for="rule_description">{{language.description}}</label>
+            <div class="opt_custom-field">
+              <input type="text" name="description" class="form-control  form-control-sm mt3" id="rule_description" placeholder="{{language.description}}"
+                [(ngModel)]="rule_wb_data.description">
+            </div>  -->
+
+          </div>
+
+          <div class="form-group row clearfic">
+
+            <label class="col-sm-3 col-form-label" for="effective_from">{{language.effective_from}}</label>
+            <div class="col-sm-5 d-flex">
+              <div class="input-group">
+                <input [owlDateTimeTrigger]="dt12" [owlDateTime]="dt12" [selectMode]="" [min]="min"
+                  class="form-control form-control-sm" name='effective_from' type="text"
+                  value="{{rule_wb_data.effective_from}}" id="effective_from" readonly
+                  placeholder="{{language.effective_from}}" [(ngModel)]="rule_wb_data.effective_from"
+                  title="{{rule_wb_data.effective_from}}" tabindex="3">
+                <div class="input-group-append">
+                  <span class="input-group-text cursor_icon" [owlDateTimeTrigger]="dt12" id="date_time_icon">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+              </div>
+              <owl-date-time #dt12 [pickerType]="'calendar'"
+                (afterPickerClosed)="effective_from(rule_wb_data.effective_from)"></owl-date-time>
+            </div>
+
+
+          </div>
+
+          <div class="form-group row clearfix">
+            <label class="col-sm-3 col-form-label" for="featureDisplay">{{language.discontinued}}</label>
+            <div class="col-sm-5 mt-3px">
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" id="yes" name="discontinued" [(ngModel)]="rule_wb_data.discontinued"
+                  class="custom-control-input" value="1" title="{{rule_wb_data.discontinued}}" tabindex="5">
+                <label class="custom-control-label" for="yes" style="padding-top: 14px;"></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row clearfix">
+            <label class="col-sm-3 col-form-label" for="feature_id">{{language.applicable_for}}</label>
+
+            <div class="col-sm-5">
+              <div class=" input-group">
+                <input type="hidden" ngValue="" class="form-control  form-control-sm mt3" name="itemCodeName"
+                  id="feature_id" (change)="onFeatureIdChange(rule_wb_data.applicable_for_feature_id)"
+                  placeholder="{{language.applicable_for}}" [(ngModel)]="rule_wb_data.applicable_for_feature_id"
+                  title="{{rule_wb_data.applicable_for_feature_id}}">
+                <input type="text" class="form-control  form-control-sm mt3" name="itemCodelookup" id="featuer_code"
+                  [(ngModel)]="rule_wb_data.applicable_for_feature_code"
+                  title="{{rule_wb_data.applicable_for_feature_code}}" placeholder="{{language.applicable_for}}"
+                  (change)="onFeatureIdChange(rule_wb_data.applicable_for_feature_code)" tabindex="6"
+                  [readonly]="is_applicable_for_disabled">
+                <div class="input-group-append">
+                  <span class="input-group-text featuer_code_lookup cursor_icon" id="basic-addon2"
+                    [hidden]="is_applicable_for_disabled" (click)="getFetureListLookup(true)">
+                    <i class="fa fa-bars"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12" *ngIf="showOutputBtn">
+              <a href="javascript:;" class="btn btn-outline-success btn-sm mt-1" title="{{language.add_row}}"
+                style="display:none;" (click)="hide_show_output()" #button>
+                <i class="fa fa-eye"></i> {{showoutput_btn_text}}
+              </a>
+            </div>
+
+            <div class="col-sm-12" *ngIf="show_add_sequence_btn">
+              <a href="javascript:;" class="btn btn-outline-primary btn-sm mt-1" title="{{language.add_sequence}} "
+                (click)="addNewSequence()">
+                <i class="fa fa-plus"></i> {{language.add_seq}}
+              </a>
+            </div>
+
+            <div class="col-sm-12" *ngIf="show_sequence">
+              <a href="javascript:;" class="btn btn-outline-success btn-sm mt-1" title="{{language.add_row}} "
+                (click)="onAddRow()">
+                <i class="fa fa-plus"></i> {{language.add_row}}
+              </a>
+            </div>
+
+
+          </div>
+
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group row clearfix">
+            <label class="col-sm-3 col-form-label" for="rule_description">{{language.description}}</label>
+            <div class="col-sm-5">
+              <input type="text" name="description" class="form-control  form-control-sm mt3" maxlength="50"
+                id="rule_description" placeholder="{{language.description}}" [(ngModel)]="rule_wb_data.description"
+                title="{{rule_wb_data.description}}" tabindex="2" (change)="detect_change()">
+            </div>
+
+          </div>
+
+          <div class="form-group row clearfic">
+            <label class="col-sm-3 col-form-label" for="effective_to">{{language.effective_to}}</label>
+            <div class="col-sm-5">
+              <div class="input-group">
+                <input [owlDateTimeTrigger]="dt13" [owlDateTime]="dt13" [selectMode]="" [min]="min"
+                  class="form-control form-control-sm" name='effective_to' type="text"
+                  value="{{rule_wb_data.effective_to}}" id="effective_to" readonly
+                  placeholder="{{language.effective_to}}" [(ngModel)]="rule_wb_data.effective_to"
+                  title="{{rule_wb_data.effective_to}}" tabindex="4">
+                <div class="input-group-append">
+                  <span class="input-group-text cursor_icon" [owlDateTimeTrigger]="dt13" id="date_time_icon">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+              </div>
+              <owl-date-time #dt13 [pickerType]="'calendar'"
+                (afterPickerClosed)="effective_to(rule_wb_data.effective_to)"></owl-date-time>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 pl-0 pr-0">
+            <!-- top table start -->
+            <div class="sequence_box" *ngIf="show_sequence">
+
+              <div class="col-sm-12 pl-0 pr-0">
+                <div class="">
+                  <kendo-grid [kendoGridBinding]="rule_sequence_data" [resizable]="true" [sortable]="false"
+                    [groupable]="false" [filterable]="false">
+                    <ng-template kendoGridToolbarTemplate>
+                      <span class="text-center">
+                        <img src="{{imgPath}}/ruleweb/input.svg" width="15px" height="15px"> {{language.input}}</span>
+                    </ng-template>
+                    <kendo-grid-column field="seqrowno" title="{{language.seq_row_no}}" filter="text" [width]="50"
+                      [minResizableWidth]="60">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <input [disabled]="true" type="text" class="form-control  form-control-sm field-nobg-noborder"
+                          id="rowNOID" name="rowNONamr" value={{dataItem.rowindex}} title="{{dataItem.rowindex}}" />
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="seqrowno" title="{{language.exp_id}}" filter="text" [width]="50"
+                      [minResizableWidth]="70">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <input [disabled]="true" type="text" class="form-control  form-control-sm field-nobg-noborder"
+                          id="rowNOID" name="rowNONamr" value={{dataItem.seq_count}} title="{{dataItem.seq_count}}" />
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="operator" title="{{language.operator}}" filter="text" [width]="115"
+                      [minResizableWidth]="115">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <select class="form-control  form-control-sm " #selectedOperator
+                          (change)="on_input_change(dataItem.rowindex, 'operator', selectedOperator.value )">
+                          <option *ngFor="let v of commonData.operator_type()" [value]="v.value"
+                            [selected]="dataItem.operator==v.value"> {{v.Name}}</option>
+                        </select>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="type" title="{{language.type}}" filter="text" [width]="115"
+                      [minResizableWidth]="115">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <select class="form-control  form-control-sm " #selected_type
+                          (change)="on_input_change(dataItem.rowindex, 'type', selected_type.value )">
+                          <option *ngFor="let v of commonData.rule_seq_type()" [value]="v.value"
+                            [selected]="dataItem.type==v.value"> {{v.Name}}</option>
+                        </select>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="bracket" title="{{language.bracket}}" filter="text" [width]="115"
+                      [minResizableWidth]="115">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <select class="form-control  form-control-sm " #selected_bracket
+                          (change)="on_input_change(dataItem.rowindex, 'braces', selected_bracket.value )">
+                          <option *ngFor="let v of commonData.bracket_list " [value]="v.value"
+                            [selected]="dataItem.braces==v.value"> {{v.value}}</option>
+                        </select>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="modelfeature" title="{{language.model_feature}}" filter="text"
+                      [width]="115" [minResizableWidth]="120">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <div class="input-group">
+                          <input [disabled]="dataItem.isTypeDisabled" type="text" class="form-control  form-control-sm "
+                            id="type_value_code"
+                            (change)="on_typevalue_change(type_value_code.value,dataItem.rowindex,type_value_code)"
+                            value="{{dataItem.type_value_code}}" title="{{dataItem.type_value_code}}" #type_value_code>
+
+                          <input [disabled]="dataItem.isTypeDisabled" type="hidden"
+                            class="form-control  form-control-sm" id="type_value"
+                            (change)="on_typevalue_change(type_value_code.value,dataItem.rowindex)"
+                            value="{{dataItem.type_value}}" title="{{dataItem.type_value}}" #type_value />
+                          <div class="input-group-append">
+                            <span [hidden]="dataItem.isTypeDisabled"
+                              class="input-group-text cursor_icon basic-addon2-table" id="basic-addon2"
+                              (click)="show_input_lookup(dataItem.type, dataItem.rowindex)">
+                              <i class="fa fa-bars"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="condition" title="{{language.condition}}" filter="text" [width]="115"
+                      [minResizableWidth]="115">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <select [disabled]="dataItem.isTypeDisabled || dataItem.type == '2'"
+                          class="form-control  form-control-sm " #selected_condition
+                          (change)="on_input_change(dataItem.rowindex, 'condition', selected_condition.value )">
+                          <option value=""></option>
+                          <option *ngFor="let v of commonData.express_conditions()" [value]="v.value"
+                            [selected]="dataItem.condition==v.value"> {{v.value}}</option>
+                        </select>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="operand1" title="{{language.operand_1}}" filter="text" [width]="115"
+                      [minResizableWidth]="115">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <div class="input-group">
+                          <input type="hidden" class="form-control form-control-sm " id="opeand_1" #operand_1
+                            name="operand_1" value="{{dataItem.operand_1}}" title="{{dataItem.operand_1}}"
+                            (change)="on_input_change(dataItem.rowindex, 'operand_1', operand_1.value,operand_1_code )" />
+                          <input type="text" [disabled]="dataItem.is_operand1_disable"
+                            class="form-control form-control-sm" id="opeand_1" #operand_1_code name="operand_1_code"
+                            value="{{dataItem.operand_1_code}}" title="{{dataItem.operand_1_code}}"
+                            (change)="on_input_change(dataItem.rowindex, 'operand_1_code', operand_1_code.value,operand_1_code )" />
+                          <div class="input-group-append">
+                            <span class="input-group-text cursor_icon basic-addon2-table"
+                              [hidden]="dataItem.is_operand1_disable" id="basic-addon2"
+                              (click)="show_operand_lookup(dataItem.type, dataItem.type_value, dataItem.rowindex,'operand_1')">
+                              <i class="fa fa-bars"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="operand2" title="{{language.operand_2}}" filter="text" [width]="115"
+                      [minResizableWidth]="115">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <div class="input-group">
+                          <input type="hidden" class="form-control form-control-sm " id="opeand_2" #operand_2
+                            name="operand_2" value="{{dataItem.operand_2}}" title="{{dataItem.operand_2}}"
+                            [disabled]="dataItem.is_operand2_disable"
+                            (change)="on_input_change(dataItem.rowindex, 'operand_2', operand_2.value,operand_2_code )" />
+                          <input type="text" class="form-control form-control-sm " id="opeand_2_code" #operand_2_code
+                            name="operand_2_code" value="{{dataItem.operand_2_code}}"
+                            title="{{dataItem.operand_2_code}}" [disabled]="dataItem.is_operand2_disable"
+                            (change)="on_input_change(dataItem.rowindex, 'operand_2_code', operand_2_code.value,operand_2_code )" />
+                          <div class="input-group-append" [hidden]="dataItem.is_operand2_disable">
+                            <span class="input-group-text cursor_icon basic-addon2-table" id="basic-addon2"
+                              (click)="show_operand_lookup(dataItem.type, dataItem.type_value, dataItem.rowindex,'operand_2')">
+                              <i class="fa fa-bars"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="action" title="{{language.action}}" filter="text" [width]="50"
+                      [minResizableWidth]="115">
+                      <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                        <i class="fa fa-trash"></i>
+                      </ng-template>
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <button type="button" class="btn btn-outline-danger btn-sm"
+                          (click)="onDeleteRow(dataItem.rowindex)">
+                          <i class="fa fa-trash"></i>
+                        </button>
+                      </ng-template>
+                    </kendo-grid-column>
+                  </kendo-grid>
+                  <div class="clearfix"></div>
+                  <div class="custom-grid-footer grid-footer k-grid-aria-root center_border">
+                    <div class="footer_grid_head k-alt"> {{language.expression}} &nbsp; &nbsp;
+                      <span class="text-center">
+                        <a href="javascript:;" (click)="genearate_expression()" class="common_grid_link"
+                          title="{{this.language.generate_expression}}">
+                          <!-- <img src="{{imgPath}}/ruleweb/generate-expression.svg" width="15px" height="15px"> -->
+                          <b><i class="fa fa-arrow-down "></i></b>
+                        </a>
+                      </span>
+                    </div>
+                    <div class="footer_grid_body k-alt">
+                      <span class="text-center">{{generated_expression_value}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- top table end -->
+
+            <div class="col-md-12 p-0">
+              <div class="output_window_box mt-2" *ngIf="rule_feature_data.length">
+                <div class="col-sm-12 pl-0 pr-0">
+                  <div class="form-group row col-md-12 clearfix">
+                    <!--   <div class="col-sm-4 bg-primary text-white">{{language.output}}</div> -->
+                    <!-- <label class="text-left col-form-label" for="featureDisplay"></label> -->
+                    <div class="text-left mr-3">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="yess" name="Excluded" [(ngModel)]="rule_wb_data.Excluded"
+                          title="{{rule_wb_data.Excluded}}" class="custom-control-input" value="1"
+                          (change)="excludeAllRowsOnCheck()">
+                        <label class="custom-control-label" for="yess"> {{language.Excluded}}</label>
+                      </div>
+                    </div>
+
+                    <!-- <label class="text-left col-form-label pl-2" for="outputTable"></label> -->
+                    <div class="text-left">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="outputTable" name="isOutputTable" [(ngModel)]="isOutputTable"
+                          title="{{language.show_hide_output}}" class="custom-control-input" value="1">
+                        <label class="custom-control-label" for="outputTable">{{language.show_hide_output}}</label>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="mb-2" *ngIf="isOutputTable">
+
+                    <kendo-grid [kendoGridBinding]="rule_feature_data" [resizable]="true" [sortable]="false"
+                      [groupable]="false" [filterable]="false">
+                      <ng-template kendoGridToolbarTemplate>
+                        <span class="text-center">
+                          <img src="{{imgPath}}/ruleweb/output.svg" width="15px" height="15px"> {{language.output}}
+                        </span>
+                      </ng-template>
+                      <kendo-grid-column field="checkboxoutput" title="{{language.checkbox_output}}" filter="text"
+                        [width]="50" [minResizableWidth]="50">
+                        <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" id="check_all" name="check_all" #outputcheckbox
+                              (click)="check_all(outputcheckbox.checked)" class="custom-control-input"
+                              [disabled]=isExcluded [(checked)]=selectall value="1">
+                            <label class="custom-control-label" for="check_all"></label>
+                          </div>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="child_check_{{dataItem.rowindex}}"
+                              name="check_child" #checkboxvalue [disabled]=isExcluded
+                              (change)="output_change_event('check_child',checkboxvalue.checked,dataItem.rowindex)"
+                              value={{dataItem.check_child}} [(checked)]=dataItem.check_child>
+                            <label class="custom-control-label" for="child_check_{{dataItem.rowindex}}"></label>
+                          </div>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="feature" title="{{language.feature}}" filter="text" [width]="115"
+                        [minResizableWidth]="115">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <a class="common_grid_link pull-left pr-1 pt-1"
+                            (click)="navigateToFeatureOrModelBom(dataItem.feature)"
+                            *ngIf="(dataItem.feature!='' && dataItem.feature!='0' && dataItem.feature!=null)">
+                            <i class="fa fa-arrow-circle-right fa-fw" aria-hidden="true"></i>
+                          </a>
+                          <input type="hidden" [disabled]="true" class="form-control  form-control-sm pull-left "
+                            [ngClass]="{'width-90per' :dataItem.feature!='0' && dataItem.feature!=''}" id="feature_name"
+                            name="feature_name" value={{dataItem.feature}} title={{dataItem.feature}} #feature
+                            (change)="output_change_event('feature_name',feature.value,dataItem.rowindex)" />
+
+                          <input type="text" [disabled]="true" class="form-control  form-control-sm pull-left "
+                            [ngClass]="{'width-90per' :dataItem.feature!='0' && dataItem.feature!=''}" id="featureCode"
+                            name="featureCode" value={{dataItem.featureCode}} title={{dataItem.featureCode}}
+                            #featureCode
+                            (change)="output_change_event('featureCode',featureCode.value,dataItem.rowindex)" />
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="item" title="{{language.item}}" filter="text" [width]="115"
+                        [minResizableWidth]="115">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <input type="text" [disabled]="true" class="form-control  form-control-sm " id="feature_item"
+                            name="feature_item" #featureitem value={{dataItem.item}} title={{dataItem.item}}
+                            (change)="output_change_event('feature_item',featureitem.value,dataItem.rowindex)" />
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="value" title="{{language.value}}" filter="text" [width]="115"
+                        [minResizableWidth]="115">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <input type="text" [disabled]="true" class="form-control  form-control-sm" id="feature_value"
+                            name="feature_value" #featurevalue value={{dataItem.value}} title={{dataItem.value}}
+                            (change)="output_change_event('feature_value',featurevalue.value,dataItem.rowindex)" />
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="uom" title="{{language.uom}}" filter="text" [width]="115"
+                        [minResizableWidth]="115">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <input type="text" [disabled]="true" class="form-control  form-control-sm" #uom id="uom"
+                            name="uom" value={{dataItem.uom}} title={{dataItem.uom}}
+                            (change)="output_change_event('uom',uom.value,dataItem.rowindex)" />
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="quantity" title="{{language.quantity}}" filter="text" [width]="115"
+                        [minResizableWidth]="115">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <input type="text" [disabled]="true" class="form-control  form-control-sm pull-right"
+                            id="quantity" style="text-align:right" name="quantity" value={{dataItem.quantity}}
+                            title={{dataItem.quantity}} #quantity
+                            (change)="output_change_event('quantity',quantity.value,dataItem.rowindex)" />
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="editquantity" title="{{language.edit_quantity}}" filter="text"
+                        [width]="115" [minResizableWidth]="115">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <select class="form-control  form-control-sm" id="edit_quanity" #is_quanity_editable
+                            (change)="output_change_event('edit_quanity',is_quanity_editable.value,dataItem.rowindex)">
+                            <option *ngFor="let v of commonData.yes_no_option()" [value]="v.value"
+                              [selected]="dataItem.edit_quantity==v.value"> {{v.Name}}</option>
+                          </select>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="price" title="{{language.price}} ({{defaultCurrency}})" filter="text"
+                        [width]="115" [minResizableWidth]="115">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <input type="text" [disabled]="true" style="text-align:right"
+                            class="form-control  form-control-sm pull-right" #price_source id="price_soure"
+                            name="price_soure" value={{dataItem.price_source}} title={{dataItem.price_source}}
+                            (change)="output_change_event('price_soure',price_source.value,dataItem.rowindex)" />
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="editprice" title="{{language.edit_price}}" filter="text" [width]="115"
+                        [minResizableWidth]="115">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <select class="form-control  form-control-sm " id="edit_price" #is_price_editable
+                            (change)="output_change_event('edit_price',is_price_editable.value,dataItem.rowindex)">
+                            <option *ngFor="let v of commonData.yes_no_option()" [value]="v.value"
+                              [selected]="dataItem.edit_price==v.value"> {{v.Name}}</option>
+                          </select>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="default" title="{{language.default}}" filter="text" [width]="115"
+                        [minResizableWidth]="115">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <ng-container
+                            *ngIf="this.feature_bom_header_details.OPTM_ISMULTISELECT == 'N' || this.feature_bom_header_details.OPTM_ISMULTISELECT == NULL">
+                            <div class="custom-control custom-radio">
+                              <input type="radio" #default class="custom-control-input"
+                                id="is_default_{{dataItem.rowindex}}" name="is_default" value={{dataItem.is_default}}
+                                title={{dataItem.is_default}}
+                                (change)="output_change_event('default',default.checked,dataItem.rowindex)"
+                                [(checked)]=dataItem.is_default
+                                [disabled]="(!dataItem.check_child || this.feature_bom_header_details.OPTM_MIN_SELECTABLE == '0' )">
+                              <label class="custom-control-label" for="is_default_{{dataItem.rowindex}}"></label>
+                            </div>
+                          </ng-container>
+                          <ng-container *ngIf="this.feature_bom_header_details.OPTM_ISMULTISELECT == 'Y'">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" #default class="custom-control-input"
+                                id="is_default_{{dataItem.rowindex}}" name="is_default" value={{dataItem.is_default}}
+                                title={{dataItem.is_default}}
+                                (change)="output_change_event('default',default.checked,dataItem.rowindex)"
+                                [(checked)]=dataItem.is_default [disabled]="(!dataItem.check_child)">
+                              <label class="custom-control-label" for="is_default_{{dataItem.rowindex}}"></label>
+                            </div>
+                          </ng-container>
+                        </ng-template>
+                      </kendo-grid-column>
+                    </kendo-grid>
+                  </div>
+
+                </div>
+              </div>              
+            </div>
+
+            <div class="row" *ngIf="show_sequence">
+              <div class="col-md-12">
+                <div class="form-group clearfix mb-0">
+                  <div class="col-md-8 pl-0">
+                    <div class="pull-left">
+                      <button type="button" *ngIf="showAddSequenceBtn" (click)="add_rule_sequence()"
+                        class="btn btn-sm btn-primary  mr-10">
+                        <i class="fa fa-check-circle"></i> {{language.add_expression}}
+                      </button>
+                      <button type="button" *ngIf="showUpdateSequenceBtn" (click)="update_rule_sequence()"
+                        class="btn btn-sm btn-primary  mr-10">
+                        <i class="fa fa-pencil"></i> {{language.update_expression}}
+                      </button>
+                      <button type="button" (click)="close_rule_sequence()" class="btn btn-sm btn-secondary">
+                        <i class="fa fa-times"></i> {{language.close}}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <!-- bottom table start -->
+            <div class="expression_box">
+
+              <!--  <hr> -->
+              <div class="col-sm-12  pl-0 pr-0">
+                <div class="">
+                  <kendo-grid [kendoGridBinding]="rule_expression_data" [resizable]="true" [sortable]="false"
+                    [groupable]="false" [filterable]="false">
+                    <ng-template kendoGridToolbarTemplate>
+                      <span class="text-center">
+                        <img src="{{imgPath}}/ruleweb/expression.svg" width="15px" height="15px">
+                        {{language.expression}}
+                      </span>
+                    </ng-template>
+                    <kendo-grid-column field="seqrowno" title="{{language.seq_row_no}}" filter="text" [width]="50"
+                      [minResizableWidth]="60">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <input [disabled]="true" type="text" class="form-control  form-control-sm  field-nobg-noborder"
+                          id="rowNOID" name="rowNONamr" value={{dataItem.rowindex}} />
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="seqrowno" title="{{language.exp_id}}" filter="text" [width]="50"
+                      [minResizableWidth]="70">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <input [disabled]="true" type="text" class="form-control  form-control-sm  field-nobg-noborder"
+                          id="rowNOID" name="rowNONamr" value={{dataItem.seq_count}} />
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="expression" title="{{language.expression}}" filter="text" [width]="200"
+                      [minResizableWidth]="200">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <span> {{dataItem.expression}} </span>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="action" title="{{language.action}}" filter="text" [width]="100"
+                      [minResizableWidth]="120">
+                      <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                        {{language.action}}
+                      </ng-template>
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <button type="button" class="btn btn-sm mr-10 btn-info"
+                          (click)="edit_expression(dataItem, dataItem.rowindex)" title="{{language.edit}}">
+                          <i class="fa fa-edit fa-fw"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm mr-10 btn-danger"
+                          (click)="delete_expression(dataItem.rowindex)" title="{{language.remove}}">
+                          <i class="fa fa-trash-o fa-fw"></i>
+                        </button>
+                      </ng-template>
+                    </kendo-grid-column>
+                  </kendo-grid>
+                </div>
+              </div>
+            </div>
+            <!-- bottom table end -->
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">
+      <div class="footer-buttons">
+        <div class="row">
+          <div class="col-md-8 pl-1">
+            <div class="pull-left">
+              <button type="button" (click)="onSave()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-primary  mr-10"><i class="fa fa-save"></i> {{language.save}}</button>
+              <button type="button" *ngIf="isUpdateButtonVisible" (click)="onSave()" class="btn btn-sm btn-primary mr-10"><i class="fa fa-save"></i> {{language.update}}</button>
+            </div>
+          </div>
+          <div class="col-md-4 pr-0">
+            <div class="pull-right">
+              <button type="button" routerLink="{{view_route_link}}" class="btn btn-sm btn-secondary mr-10">
+                <i class="fa fa-times"></i>
+                <span> {{language.cancel}}</span>
+              </button>
+
+              <button type="button" class="btn btn-sm btn-danger" *ngIf="isDeleteButtonVisible" (click)="onDelete()">
+                <i class="fa fa-trash"></i>
+                <span> {{language.delete}}</span>
+              </button>
+              <!-- only view when edit mode -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<!--Custom Dialog-->
+<span [hidden]="showLookupLoader">
+  <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"
+    [selectedImage]="selectedImage"></app-lookup>
+</span>
+
+<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)">
+</app-custom-dialogs>

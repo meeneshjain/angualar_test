@@ -1,0 +1,196 @@
+<!-- loader start -->
+<div class="opti_loader opti_loader-module-grid-list" *ngIf="showLoader">
+    <div class="opti_spinner"></div>
+</div>
+<!-- loader end --> 
+
+<!-- loader start for lookup -->
+<div class="opti_loader opti_loader-module-grid-list opti_lookup-loader" *ngIf="showLookupLoader">
+    <div class="opti_spinner"></div>
+</div>
+<!-- loader end for lookup --> 
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+    <div class="opti_module-title"> {{page_main_title}}</div>
+    
+</div>
+<ol class="breadcrumb breadcrumb_mini_margin">
+   <li class="breadcrumb-item ">
+        <a routerLink="{{view_route_link}}" href="javascript:;">{{page_main_title}}</a>
+    </li>
+    <li class="breadcrumb-item active">{{section_title}}</li>
+</ol>
+<div class="card mb-3">
+    <form class="form-horizontal">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-4 col-form-label" for="feature">
+                            {{model_code_label}}</label>
+                            <div class="col-sm-5">
+                                <input type="text" id="codeID" name="codeName" maxlength="50" [disabled]="code_disabled" class="form-control  form-control-sm mt3" placeholder="{{model_code_label}}"
+                                [(ngModel)]="featureBom.Code" title="{{featureBom.Code}}" #inputBox (change)="validate_special_char(featureBom.Code)">
+                            </div>
+                        </div>
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-4 col-form-label" for="type">{{language.Model_Type}}</label>
+                            <div class="col-sm-5">
+                                <select [disabled] = "isUsedAccesoriesDisabled" class="form-control  form-control-sm mt3" (change)= "onTypeLookupChange()" id="typeID" name="typeName" [(ngModel)]="featureBom.type" #select>
+                                    <option value="Feature">{{language.feature}}</option>
+                                    <option value="Model">{{language.model}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-4 col-form-label" for="featurename">{{model_name_label}}</label>
+                            <div class="col-sm-5">
+                                <input type="text" id="modelID" name="modelID" maxlength="50" class="form-control  form-control-sm mt3" placeholder="{{model_name_label}}"
+                                [(ngModel)]="featureBom.Name" title="{{featureBom.Name}}" (change)="call_change_event()">
+                            </div>
+                        </div>
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-4 col-form-label" for="featureDesc">{{model_desc_label}}</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="descName" maxlength="50" class="form-control  form-control-sm mt3" id="featureDesc" placeholder="{{model_desc_label}}"
+                                [(ngModel)]="featureBom.Desc" title="{{featureBom.Desc}}" (change)="call_change_event()">
+                            </div>
+                        </div>
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-4 col-form-label" for="featureItem">{{language.Model_Item}}</label>
+
+                            <div class="col-sm-5 input-group mt3">
+                                <input type="text" name="modelItemName" class="form-control  form-control-sm" id="featureItemName" value="featureBom.ItemName" [disabled]="isItemCodeDisabled" placeholder="{{language.Model_Item}}" (change)="onItemCodeChange()" [(ngModel)]="featureBom.ItemName" title="{{featureBom.ItemName}}">
+                                <input type="hidden" name="modelItemCode" class="form-control  form-control-sm" id="featureItemcode" value="featureBom.ItemCode" [disabled]="isItemCodeDisabled" placeholder="{{language.Model_Item}}" (change)="onItemCodeChange()" [(ngModel)]="featureBom.ItemCode" title="{{featureBom.ItemCode}}">
+                                <div class="input-group-append" [hidden] ="isItemlookupDisabled">
+                                    <span class="input-group-text cursor_icon" id="basic-addon2"  (click)="onTemplateItemPress(true)">
+                                        <i class="fa fa-bars"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-4 col-form-label" for="featureItemCode">{{language.Model_Ref}}</label>
+
+                            <div class="col-sm-5 input-group mt3">
+                                <input type="text" ngValue="" class="form-control  form-control-sm" name="itemCodeName" id="featureItemCode" (change)="onRefCodeChange()"
+                                placeholder="{{language.Model_Ref}}" [(ngModel)]="featureBom.Ref" title="{{featureBom.Ref}}" [disabled]="isRefCodeDisabled" (change)="call_change_event()">
+                                <div class="input-group-append" [hidden] ="isReflookupDisabled">
+                                    <span class="input-group-text cursor_icon" id="basic-addon2"  (click)="onItemGenerationPress(true)">
+                                        <i class="fa fa-bars"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-4 col-form-label" for="datetime_input" class="col-sm-4 col-form-label">{{language.Model_Date}}</label>
+                            <div class="col-sm-5 mt3">
+                                <div class="input-group">
+                                    <input [owlDateTimeTrigger]="dt12" [owlDateTime]="dt12" [selectMode]="" [min]="minimum_date" class="form-control  form-control-sm" name='datepicker'
+                                    type="text" value="" id="datetime_input" readonly placeholder="{{language.Model_Date}}" [(ngModel)]="featureBom.Date">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text cursor_icon" [owlDateTimeTrigger]="dt12" id="date_time_icon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <owl-date-time #dt12 [pickerType]="'calendar'"></owl-date-time>
+                            </div>
+                        </div>
+                        <div class="form-group row clearfix" *ngIf="showImageBlock"> 
+                            <label class="col-sm-4 col-form-label" for="image">{{language.image}}</label>
+                            <div class="col-sm-5">
+                                <div class="row image_data" >
+                                    <div class=" col-md-4 col-sm-4">
+                                        <a href="javascript:;" data-toggle="modal" data-target="#enlarge_image_modal" (click)="enlage_image(ModelImage)">
+                                            <img src={{ModelImage}} class="img-thumbnail rounded float-left mdelbom_image" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-4 col-form-label" for="image">{{language.Model_Image}}</label>
+                            <div class="col-sm-5">
+                             <div class="btn btn-outline-secondary btn-file btn-sm"> {{language.choose_image}} <input type="file" class="form-control  form-control-sm mt3-file" id="image" name="imagename" #image (change)="uploadimagefile(image.files)"  ></div> 
+                         </div>
+                     </div>
+                     <div class="form-group row clearfix">
+                        <label class="col-sm-4 col-form-label" for="Status">{{language.Model_Status}}</label>
+                        <div class="col-sm-5">
+                            <select class="form-control  form-control-sm mt3" name="featureTypeName" [(ngModel)]="featureBom.Status" id="featureTypeNameID" (change)="call_change_event()">
+                                <option value="Active">{{language.Model_Active}}</option>
+                                <option value="Inactive">{{language.Model_InActive}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row clearfix" [hidden]="IsAccessoryVisible">
+                        <label class="col-sm-4 col-form-label" for="Accessory">{{language.Model_Accessory}}</label>
+                        <div  class="col-sm-5 mt-3px">
+                            <div  class="custom-control custom-radio custom-control-inline mr-3">
+                                <input [disabled] = "isUsedAccesoriesDisabled" type="radio" id="yes" name="accessory" class="custom-control-input" value="Y" [(ngModel)]="featureBom.Accessory" (change)="call_change_event()" title="{{this.language.YES}}">
+                                <label class="custom-control-label" for="yes">{{this.language.YES}}</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline ">
+                                <input [disabled] = "isUsedAccesoriesDisabled"  type="radio" id="no" name="accessory" class="custom-control-input" value="N" [(ngModel)]="featureBom.Accessory" (change)="call_change_event()" title="{{this.language.NO}}">
+                                <label class="custom-control-label" for="no">{{this.language.NO}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="card-footer small text-muted">
+            <div class="footer-buttons">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="pull-left">
+                            <button type="button" (click)="onSaveClick()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-primary  mr-10">
+                                <i class="fa fa-save"></i> {{language.save}}
+                            </button>
+
+                            <button type="button" *ngIf="isUpdateButtonVisible" (click)="onUpdateClick()" class="btn btn-sm btn-primary mr-10">
+                                <i class="fa fa-save"></i> {{language.update}}
+                            </button>
+
+                            <button type="button" *ngIf="isAssociatedBOMButtonVisible && featureBom.type == 'Feature' && this.codekey!= ''" class="btn btn-sm btn-secondary"
+                            (click)="onAssociatedBOMClick()">
+                            <i class="fa fa-share-alt"></i> {{language.associated_BOM}}
+                        </button>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="pull-right">
+
+                        <button type="button" class="btn btn-sm btn-danger pr-1 mr-10" *ngIf="isDeleteButtonVisible" (click)="onDeleteClick()">
+                            <i class="fa fa-trash"></i>
+                            <span> {{language.delete}}</span>
+                        </button>
+                        <!-- only view when edit mode -->
+                        <button type="button" routerLink="{{view_route_link}}" class="btn btn-sm btn-sm btn-secondary">
+                            <i class="fa fa-times"></i>
+                            <span> {{language.cancel}}</span>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+<span [hidden]="showLookupLoader">
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event) " [selectedImage]="selectedImage"></app-lookup>
+</span>
+
+<!--Custom Dialog-->
+<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)"></app-custom-dialogs>

@@ -1,0 +1,43 @@
+.opti_overflow-auto{
+    overflow: auto;
+}
+
+.opti_fixed-header{
+    min-width: 1300px;
+}
+
+.top-table{
+    tbody {
+        td{height: 40px;}
+        tr{}
+        tr:nth-child(odd) {}
+    }
+    tbody td, thead th {}
+    tbody tr td:last-child {
+        button{
+            // margin-top: 5px;
+        }
+    }
+}
+
+#featureNameCode,
+
+#type_value_code{
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.basic-addon2-table {
+    margin-top: 0;
+}
+
+
+img.img-thumbnail{
+    border: none;
+    background: transparent;
+    padding: 5px;
+    margin: 0;
+    max-width: 95%;
+    margin-left: 15%;
+}
+

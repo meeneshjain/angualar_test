@@ -1,0 +1,1553 @@
+<!-- loader start for lookup -->
+<div class="opti_loader opti_loader-module-grid-list opti_lookup-loader" *ngIf="showLookupLoader">
+  <div class="opti_spinner"></div>
+</div>
+<!-- loader end for lookup -->
+
+<div class="card mb-3 mt-3">
+  <div class="form-box">
+    <form role="form" action="" method="post" class="f1 py-1 px-2">
+      <div class="opti_module-title">
+        {{language.config_wizard}}
+        <div class="pull-right col-sm-2">
+
+          <div class="" *ngIf="showPrintOptions">
+            <div class="form-group clearfix">
+              <div class="input-group">
+                <select class="form-control  form-control-sm thin_select" name="print_operation_type" id="print_operation_type" #print_operation_type>
+                  <option value="">{{language.print_option}}</option>
+                  <option value="1">{{language.summary}}</option>
+                  <option value="2">{{language.detail}}</option>
+                </select>
+                <div class="input-group-append">
+                  <!-- <button class="btn btn-sm btn-success" style="border-radius:0 .2rem .2rem 0 !important;" (click)="output_invvoice_print_lookup(print_operation_type.value)"
+                    title="Print">
+                    <i class="fa fa-print  fa-fw"></i>
+                  </button> -->
+                   <button class="btn btn-sm btn-success" style="border-radius:0 .2rem .2rem 0 !important;" (click)="output_new_invoice(print_operation_type.value)"
+                    title="Print">
+                    <i class="fa fa-print  fa-fw"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="f1-steps">
+        <div class="f1-progress">
+          <div class="f1-progress-line" data-now-value="10%" data-number-of-steps="5" style="width: 10%;"></div>
+        </div>
+        <div id="choose_operation" class="f1-step active  f1-step_middle">
+          <div class="f1-step-icon">
+            <i class="fa fa-user"></i>
+          </div>
+          <p>{{language.operation}}</p>
+        </div>
+        <div id="customer_details" class="f1-step  f1-step_middle">
+          <div class="f1-step-icon">
+            <i class="fa fa-user"></i>
+          </div>
+          <p>{{language.select_customer_document}}</p>
+        </div>
+        <div id="model_bom_config" class="f1-step f1-step_middle">
+          <div class="f1-step-icon">
+            <i class="fa fa-sitemap"></i>
+          </div>
+          <p>{{language.select_model_bom_config_short}}</p>
+        </div>
+        <div id="accept_bom_so" class="f1-step f1-step_middle">
+          <div class="f1-step-icon">
+            <i class="fa fa-check-circle"></i>
+          </div>
+          <p>{{language.verify_select_accept}}</p>
+        </div>
+        <div id="fina_doc_create" class="f1-step f1-step_middle">
+          <div class="f1-step-icon">
+            <i class="fa fa-eye"></i>
+          </div>
+          <p>{{language.fianl_document_creat}}</p>
+        </div>
+      </div>
+      <fieldset class="one_step_block" data-block_id="choose_operation" style="display:block">
+        <div class="wizard_heading_section">
+          <div class="container-fluid">
+            <div class="row bg-primary pb-1 pt-1 wizard_font">
+              <div class="col-md-10 pull-left">
+                <i class="fa fa-user fa-fw"></i> {{language.choose_one_action}} </div>
+              <div class="col-md-2 pull-right text-right"> {{language.step_1_5}} </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+        <div class="form_section">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-4 offset-md-4">
+                <div class="form-group row clearfix">
+                  <label class="col-sm-5 col-form-label" for="customer_doc">{{language.operation}}</label>
+                  <div class="col-sm-5">
+                    <select class="form-control  form-control-sm mt3" name="main_operation_type" id="main_operation_type"
+                      [(ngModel)]="step1_data.main_operation_type" (change)="onOperationChange(main_operation_type.value)"
+                      #main_operation_type>
+                      <option value=""></option>
+                      <option value="1">{{language.new}}</option>
+                      <option value="2" >{{language.modify_existing}}</option>
+                      <option value="3" >{{language.duplicate}}</option>
+                      <option value="4" >{{language.view}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="modify_duplicate_option_block" *ngIf="modify_duplicate_selected">
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="modify_duplicate_lookup">{{language.configuration_id}}</label>
+                    <div class="col-sm-5 input-group">
+                      <input type="text" ngValue="" class="form-control form-control-sm" (change)="on_configuration_id_change(modify_duplicate_lookup.value)"
+                        name="modify_duplicate_lookup" #modify_duplicate_lookup id="modify_duplicate_lookup"
+                        placeholder="{{language.configuration_id}}" [(ngModel)]="step1_data.selected_configuration_key"
+                        #selected_configuration_key readonly>
+                      <div class="input-group-append">
+                        <span class="input-group-text cursor_icon" id="basic-addon2" (click)="open_config_lookup()">
+                          <i class="fa fa-bars"></i>
+                        </span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="form-group row clearfix new_output_config" *ngIf="new_output_config">
+                  <label class="col-sm-5 col-form-label" for="description">{{language.description}}</label>
+                  <div class="col-sm-5">
+                    <input type="text" class="form-control  form-control-sm mt3" id="description" name="description"
+                      value="" placeholder="{{language.description}}" [(ngModel)]="step1_data.description" #description />
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="f1-buttons py-2 border-top" *ngIf="step0_isNextButtonVisible">
+          <button style="display:none;" id="step0_next_click_id" type="button" class="btn btn-sm btn-primary  mr-10 btn-next"
+            data-next-block="customer_details">
+            <i class="fa fa-arrow-right fa-fw"></i> {{language.next}}</button>
+
+          <button *ngIf="step0_isNextButtonVisible" type="button" class="btn btn-sm btn-primary  mr-10" (click)="onStep0NextPress()">
+            <i class="fa fa-arrow-right fa-fw"></i> {{language.next}}</button>
+        </div>
+      </fieldset>
+      <fieldset class="one_step_block" data-block_id="customer_details" style="display:none">
+        <div class="wizard_heading_section">
+          <div class="container-fluid">
+            <div class="row bg-primary pb-1 pt-1 wizard_font">
+              <div class="col-md-10 pull-left">
+                <i class="fa fa-user fa-fw"></i> {{language.customer_doc_detail}} </div>
+              <div class="col-md-2 pull-right text-right"> {{language.step_2_5}} </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+
+        <!-- Customer and Document Details start -->
+        <div class="form_section" id="opti_configur-wizard-second-step">
+          <div class="container-fluid">
+            <!-- document and date section start -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="col-md-4 pl-0 float-left">
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="customer_doc">{{language.document}}</label>
+                    <div class="col-sm-7">
+                      <select class="form-control  form-control-sm mt3" name="document" id="document" [(ngModel)]="step1_data.document"
+                        (change)="onDocumentChange(document.value)" #document>
+                        <option *ngFor="let v of doctype" [value]="v.value" [selected]="document.value==v.value">
+                          {{v.Name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 float-left">
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="posting_date">{{language.posting_date}}</label>
+
+                    <div class="col-sm-7">
+                      <input class="form-control  form-control-sm mt3" name='posting_date' type="text" value="" id="posting_date"
+                        name="posting_date" readonly placeholder="{{language.posting_date}}" [(ngModel)]="step1_data.posting_date">
+
+                      <owl-date-time #dt12 [pickerType]="'calendar'"></owl-date-time>
+                    </div>
+                  </div>
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="delivery_until">{{document_date}}</label>
+                    <div class="col-sm-7 ">
+                      <div class=" input-group">
+                        <input [owlDateTimeTrigger]="dt13" [owlDateTime]="dt13" [selectMode]="" [min]="min" class="form-control  form-control-sm"
+                          name='delivery_until' type="text" value="" id="delivery_until" name="delivery_until" readonly
+                          placeholder="{{document_date}}" [(ngModel)]="step1_data.delivery_until">
+                        <div class="input-group-append">
+                          <span class="input-group-text cursor_icon" [owlDateTimeTrigger]="dt13" id="delivery_until_icon">
+                            <i class="fa fa-calendar"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <owl-date-time #dt13 [pickerType]="'calendar'"></owl-date-time>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- document and date section end -->
+            <hr>
+
+            <!-- Address and customer detail start -->
+            <div class="row">
+              <div class="col-md-12">
+
+                <!-- customer info start -->
+                <div class="col-md-4 pl-0 float-left">
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="customer_doc">{{language.customer}}</label>
+                    <div class="col-sm-7 input-group">
+                      <input type="text" ngValue="" class="form-control form-control-sm" (change)="onCustomerChange('')"
+                        name="customer" id="customer" placeholder="{{language.customer}}" [(ngModel)]="step1_data.customer"
+                        #customer>
+                      <div class="input-group-append">
+                        <span class="input-group-text cursor_icon" id="basic-addon2" (click)="openCustomerLookUp()">
+                          <i class="fa fa-bars"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="customer_doc">{{language.Name}}</label>
+                    <div class="col-sm-7">
+                      <input type="text" ngValue="" readonly class="form-control  form-control-sm mt3" name="customer_name"
+                        id="customer_name" placeholder="{{language.name}}" [(ngModel)]="step1_data.customer_name"
+                        #customername>
+
+                    </div>
+                  </div>
+
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="contact_persons">{{language.contact_person}}</label>
+                    <div class="col-sm-7">
+                      <select class="form-control  form-control-sm mt3" #person name="contact_persons" [(ngModel)]="step1_data.person_name" id="contact_persons"
+                        (change)="onContactPersonChange(person.value)">
+                        <option [selected]="person.value == v.Name" *ngFor="let v of contact_persons" [value]="v.Name">
+                          {{v.Name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- customer info end -->
+
+
+                <!-- shipment code start -->
+                <div class="col-md-4 float-left">
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="ship_to">{{language.ship_to}}</label>
+                    <div class="col-sm-7">
+                      <select class="form-control  form-control-sm mt3" #customerShipTo name="ship_to" id="ship_to"
+                        (change)="onShipToChange(customerShipTo.value)" >
+                        <option [selected]="step1_data.ship_to == v.ShipToDef" *ngFor="let v of ship_to" [value]="v.ShipToDef">
+                          {{v.ShipToDef}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="ship_to_address">{{language.address}}</label>
+                    <div class="col-sm-7">
+                      <textarea type="text" ngValue="" readonly class="form-control  form-control-sm mt3" name="ship_to_address"
+                        id="ship_to_address" placeholder="{{language.ship_to_address}}" [(ngModel)]="step1_data.ship_to_address"
+                        #shipto></textarea>
+                    </div>
+                  </div>
+
+                </div>
+                <!-- shipment code end -->
+
+                <!-- bill code start -->
+                <div class="col-md-4 float-left">
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="bill_to">{{language.bill_to}}</label>
+                    <div class="col-sm-7">
+                      <select class="form-control  form-control-sm mt3" #customerBillTo name="bill_to" id="bill_to"
+                        (change)="onBillToChange(customerBillTo.value)" >
+                        <option [selected]="step1_data.bill_to == v.BillToDef" *ngFor="let v of bill_to" [value]="v.BillToDef">
+                          {{v.BillToDef}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="bill_to_address">{{language.address}}</label>
+                    <div class="col-sm-7">
+                      <textarea type="text" rows="3" readonly ngValue="" class="form-control  form-control-sm mt3" name="bill_to_address"
+                        id="bill_to_address" placeholder="{{language.bill_to_address}}" [(ngModel)]="step1_data.bill_to_address"
+                        #shipto></textarea>
+                    </div>
+                  </div>
+
+                </div>
+                <!-- bill code end -->
+
+              </div>
+
+            </div>
+            <!-- Address and customer detail end -->
+
+            <hr>
+            <!-- employee section , owner and remark section end -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="col-md-4 pl-0">
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="sales_employee">{{language.sales_employee}}</label>
+                    <div class="col-sm-7">
+                      <select class="form-control  form-control-sm mt3" #salesemployee name="sales_employee" id="sales_employee"
+                        (change)="onSalesPersonChange(salesemployee.value)"  >
+                        <option [selected]="v.SlpName == step1_data.sales_employee" *ngFor="let v of sales_employee" [value]="v.SlpName">
+                          {{v.SlpName}}</option>
+                      </select>
+                    </div>
+                  </div>
+                
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="owner_list">{{language.owner}}</label>
+                    <div class="col-sm-7">
+                      <select class="form-control  form-control-sm mt3" #owner name="owner_list" id="owner_list"  [value]='step1_data.owner' (change)="on_onwer_change(owner.value)" >
+                        <option *ngFor="let v of owner_list" [value]="v.lastName"  [selected]="step1_data.owner == v.lastName">
+                          {{v.lastName}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row clearfix">
+                    <label class="col-sm-5 col-form-label" for="remark">{{language.remark}}</label>
+                    <div class="col-sm-7">
+                      <textarea type="text" rows="4" ngValue="" class="form-control  form-control-sm mt3" name="remark"
+                        id="remark" placeholder="{{language.remark}}" [(ngModel)]="step1_data.remark" #remark> </textarea>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- employee section , owner and remark section end -->
+          </div>
+        </div>
+        <!-- Customer and Document Details end -->
+
+        <div class="f1-buttons py-2 border-top" *ngIf="isNextButtonVisible" >
+          <span class="output_final_screen_save_button">
+            <button (click)="onSavePress()" *ngIf="isNextButtonVisible" type="button" class="btn btn-sm btn-success   mr-10">
+              <i class="fa fa-check fa-fw"></i> {{language.save}}</button>
+          </span>
+
+
+          <button type="button" class="btn btn-sm btn-dark  mr-10 btn-previous" (click)="previousButtonPress()"
+            data-previous-block="choose_operation">
+            <i class="fa fa-arrow-left fa-fw"></i> {{language.previous}}</button>
+          <button type="button" *ngIf="isNextButtonVisible" class="btn btn-sm btn-primary  mr-10 btn-sm " (click)="step2_next_click_validation()">
+            <i class="fa fa-arrow-right fa-fw"></i> {{language.next}}</button>
+
+          <button type="button" style="display:none" *ngIf="isNextButtonVisible" class="btn btn-sm btn-primary  mr-10 btn-next btn-sm step_2_redirect"
+            data-next-block="model_bom_config">
+            <i class="fa fa-arrow-right fa-fw"></i> {{language.next}}</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="one_step_block" data-block_id="model_bom_config">
+        <div class="wizard_heading_section">
+          <div class="container-fluid">
+            <div class="row bg-primary pb-1 pt-1 wizard_font">
+              <div class="col-md-10 pull-left">
+                <i class="fa fa-sitemap fa-fw"></i> {{language.model_bill_ofm}}
+              </div>
+              <div class="col-md-2 pull-right text-right"> {{language.step_3_5}} </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+
+        <!-- Model BOM To Configure Product start -->
+        <div class="form_section" id="opti_configur-wizard-third-step">
+          <div class="container-fluid">
+            <div class="row">
+              <!-- left section start -->
+              <div class="col-md-5" id="opti_configur-wizard-third-step-leftside">
+                <div class="form-group row clearfix">
+                  <label class="col-sm-3 col-form-label" for="model">{{language.model}}</label>
+                  <div class="col-sm-9 input-group">
+                    <input type="hidden" ngValue="" class="form-control  form-control-sm" [(ngModel)]="step2_data.modal_id"
+                      name="modelName" id="modelNameId">
+                    <input type="text" ngValue="" class="form-control  form-control-sm" name="model" id="model"
+                      placeholder="{{language.model}}" [(ngModel)]="step2_data.model_code" #modelcode (change)="onModelCodeChange()">
+                    <div class="input-group-append">
+                      <span class="input-group-text cursor_icon" id="basic-addon2" (click)="openModalList()">
+                        <i class="fa fa-bars"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-3 col-form-label" for="quantity">{{language.quantity}}</label>
+                  <div class="col-sm-9">
+                    <input type="text" ngValue="" pattern="\d+" class="form-control  form-control-sm mt3 pull-right"
+                      name="quantity" id="quantity" placeholder="{{language.quantity}}" [(ngModel)]="step2_data.quantity"
+                      #quantity (change)="on_input_change('quantity',quantity.value)" style="text-align:right">
+
+                  </div>
+                </div>
+                <!-- <button (click)="toggleAccordion('true');">Show</button><button (click)="toggleAccordion('false');">Hide</button> -->
+                <hr>
+
+                <div class="form-group" *ngIf="ModelHeaderData.length > 0">
+                  <label class="col-form-label mr-3" for="features">{{language.features}}</label>
+                  <i id="hideAccordion" class="fa fa-compress ecselect pull-right" aria-hidden="true" title="Collapse"></i>
+                  <i id="showAccordion" class="fa fa-expand pull-right" aria-hidden="true" title="Expand"></i>
+                </div>
+
+                <div class="new_tree_structure_area" *ngIf="ModelHeaderData.length > 0">
+                  <!-- <button id="showAccordion">Show</button><button id="hideAccordion">Hide</button> -->
+                  <div class="panel-group opti_optiLeftTopAccordion" id="step_default_{{step2_data.model_code}}" role="tablist"
+                    aria-multiselectable="true">
+                    <div class="panel panel-default custom_panel_box" *ngFor="let header_data of ModelHeaderData; let i = index;">
+                      <div class="panel-heading custom_panel_header" role="tab" id="feature_id_{{header_data.OPTM_FEATUREID}}"
+                        [ngClass]="{'tr-hide' :countFeatureBOMChildsByFeatureId(header_data.OPTM_FEATUREID)}">
+                        <h4 class="panel-title">
+                          <a role="button" attr.data-toggle="collapse" attr.data-parent="{{'#step_default_'+step2_data.model_code}}"
+                            attr.aria-expanded="false" attr.aria-controls="{{header_data.OPTM_FEATUREID}}" class="custom_panel_parent_section">
+                            {{header_data.OPTM_DISPLAYNAME}}
+                            <span class="text-right pull-right custom_panel_icon_section custom_panel_icon_section_feature" *ngIf="ModelHeaderData.length > 0">
+                              <i class="fa fa-plus"></i>
+                            </span>
+                          </a>
+                        </h4>
+                      </div>
+                      <!--  {{header_data.OPTM_FEATUREID}} -- {{countFeatureBOMChildsByFeatureId(header_data.OPTM_FEATUREID)}} -- {{header_data.OPTM_TYPE}} -->
+                        <div id="feature_id_{{header_data.OPTM_FEATUREID}}" class="panel-collapse collapse custom_panel_child_section"
+                        role="tabpanel" attr.aria-labelledby="feature_id_{{header_data.OPTM_FEATUREID}}" 
+                       [ngClass]="( countFeatureBOMChildsByFeatureId(header_data.OPTM_FEATUREID) === true && header_data.OPTM_TYPE != 3 ) ? 'tr-hide' : '' "
+                        > 
+                        <!-- [ngClass]="{'tr-hide' :countFeatureBOMChildsByFeatureId(header_data.OPTM_FEATUREID)}" -->
+                        <div class="panel-body">
+                          <table class="parent_table inner-table table table-bordered table-strip table-sm">
+                            <thead class="thead-dark" *ngIf="ModelHeaderData.length > 0">
+                              <tr>
+                                <th class="text-center">#</th>
+                                <th>{{language.code}}</th>
+                                <th>{{language.description}}</th>
+                                <th>{{language.image}}</th>
+                              </tr>
+                            </thead>
+                            <tbody *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length > 0">
+                              <tr *ngFor="let feature_model_data of get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel); let i= index;"
+                              [ngClass]="( feature_model_data.disable === true && header_data.OPTM_TYPE != 3 ) ? 'tr-hide' : '' "
+                                >
+                                <!-- [ngClass]="{'tr-hide' :feature_model_data.disable}" -->
+                                  <td class="text-center">
+                                    <div class="{{header_data.element_class}}" >
+
+                                      <span *ngIf="header_data.is_second_level == 1" >
+                                        <input type="{{header_data.element_type}}" id="checkbox_child_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                          #selectionchecked name="checkbox_child_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                          class="custom-control-input" (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,true, header_data.unique_key)"
+                                          [(checked)]="feature_model_data.checked" [disabled]="feature_model_data.disable && header_data.OPTM_TYPE != 3">
+                                        <label class="custom-control-label" for="checkbox_child_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"></label>
+                                      </span>
+                                      <span *ngIf="header_data.is_second_level== undefined" >
+                                        <input type="{{header_data.element_type}}" id="checkbox_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                          #selectionchecked name="checkbox_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                          class="custom-control-input" (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,false, header_data.unique_key)"
+                                          [(checked)]="feature_model_data.checked" [disabled]="feature_model_data.disable && header_data.OPTM_TYPE != 3">
+                                        <label class="custom-control-label" for="checkbox_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"></label>
+                                      </span>
+
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <span *ngIf="feature_model_data['OPTM_TYPE']=='1'">{{feature_model_data.feature_code}}</span>
+                                    <span *ngIf="feature_model_data['OPTM_TYPE']=='2'">{{feature_model_data.OPTM_ITEMKEY}}</span>
+                                    <span *ngIf="feature_model_data['OPTM_TYPE']=='3'">{{feature_model_data.OPTM_DISPLAYNAME}}</span>
+                                  </td>
+                                  <td>{{feature_model_data.OPTM_DISPLAYNAME}}</td>
+                                  <td>
+                                    <div class="image-preivew" *ngIf="feature_model_data.IMAGEPATH!=''">
+                                      <a href="javascript:;" data-toggle="modal" data-target="#enlarge_image_modal"
+                                        (click)="enlage_image(feature_model_data.IMAGEPATH)">
+                                        <img src="{{feature_model_data.IMAGEPATH}}" style="width:40px" alt="" class="img-thumbnail">
+                                      </a>
+                                    </div>
+                                  </td>
+                              </tr>
+                            </tbody>
+                            <tfoot *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length == 0">
+                              <tr>
+                                <td>
+                                  <div class="{{header_data.element_class}}">
+                                    <input type="{{header_data.element_type}}" id="checkbox_{{header_data.OPTM_FEATUREID}}_{{header_data.OPTM_LINENO}}_{{header_data.OPTM_MODELID}}"
+                                      name="checkbox_{{header_data.OPTM_FEATUREID}}" #selectionchecked class="custom-control-input"
+                                      (change)="onselectionchange(header_data,selectionchecked,selectionchecked.id)"
+                                      [(checked)]="FeatureBOMDataForSecondLevel.checked" [disabled]="FeatureBOMDataForSecondLevel.disable">
+                                    <label class="custom-control-label" for="checkbox_{{header_data.OPTM_FEATUREID}}_{{header_data.OPTM_LINENO}}_{{header_data.OPTM_MODELID}}">
+                                    </label>
+                                  </div>
+                                </td>
+                                <td>
+                                  <span *ngIf="header_data['OPTM_TYPE']=='1'">{{header_data.feature_code}}</span>
+                                  <span *ngIf="header_data['OPTM_TYPE']=='2'">{{header_data.OPTM_ITEMKEY}}</span>
+                                  <span *ngIf="header_data['OPTM_TYPE']=='3'">{{header_data.child_code}}</span>
+                                </td>
+                                <td>{{header_data.OPTM_DISPLAYNAME}}</td>
+                                <td>
+                                  <div class="image-preivew" *ngIf="header_data.IMAGEPATH!=''">
+                                    <a href="javascript:;" data-toggle="modal" data-target="#enlarge_image_modal"
+                                      (click)="enlage_image(header_data.IMAGEPATH)">
+                                      <img src="{{header_data.IMAGEPATH}}" style="width:40px" alt="" class="img-thumbnail">
+                                    </a>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                
+                <!-- new acsessory section - start -->
+                <div class="form-group row clearfix">
+                  <div class="col-sm-12" *ngIf="feature_accessory_list.length > 0">
+                    <label class="col-form-label mr-3" for="accessory">{{language.accessories}}</label>
+                    <span *ngIf="feature_accessory_list.length > 0">
+                      <i id="hideAccordionAcc" class="fa fa-compress compress_accessory ecselect pull-right"
+                        aria-hidden="true" title="Collapse"></i>
+                      <i id="showAccordionAcc" class="fa fa-expand expand_accessory pull-right" aria-hidden="true"
+                        title="Expand"></i>
+                    </span>
+                  </div>
+                </div>
+                <!-- <hr> -->
+                <div class="new_tree_structure_area_accessory pr-0">
+                  <div class="new_tree_structure_area" *ngIf="feature_accessory_list.length > 0">
+                    <div class="panel-group AccessoryAccordion" id="step_default_{{feature_accessory_list[0].name}}"
+                      role="tablist" aria-multiselectable="true">
+                      <div class="panel panel-default custom_panel_box" *ngFor="let accessory_header_data of feature_accessory_list; let i = index;">
+                        <div class="panel-heading custom_panel_header" role="tab" id="accesory_el_id{{accessory_header_data.key}}">
+                          <h4 class="panel-title">
+                            <a role="button" attr.data-toggle="collapse" attr.data-parent="{{'#step_default_'+accessory_header_data.name}}"
+                              attr.aria-expanded="false" attr.aria-controls="{{accessory_header_data.name}}" class="custom_panel_parent_section">
+                              {{accessory_header_data.name}}
+                              <span class="text-right pull-right custom_panel_icon_section custom_panel_icon_section_acc " *ngIf="feature_accessory_list.length > 0">
+                                <i class="fa fa-plus"></i>
+                              </span>
+                            </a>
+                          </h4><!-- panel-title -->
+                        </div> <!-- panel-heading -->
+                        <div id="accesory_el_id{{accessory_header_data.name}}" class="panel-collapse collapse custom_panel_child_section"
+                          role="tabpanel" attr.aria-labelledby="accesory_el_id{{accessory_header_data.name}}">
+                          <div class="panel-body">
+                            <table class="parent_table inner-table table table-bordered table-strip table-sm">
+                              <thead class="thead-dark" *ngIf="feature_accessory_list.length > 0">
+                                <tr>
+                                  <th class="text-center">#</th>
+                                  <th>{{language.code}}</th>
+                                  <th>{{language.description}}</th>
+                                </tr>
+                              </thead>
+                              <tbody *ngIf="get_accessory_element(accessory_header_data,selectedAccessoryBOM).length > 0">
+                                <tr *ngFor="let accessory_item_data of get_accessory_element(accessory_header_data,selectedAccessoryBOM); let i= index;">
+                                  <td class="text-center">
+                                    <div class="custom-control custom-checkbox">
+                                      <input type="checkbox" id="accessory_checkbox_{{accessory_item_data.unique_key}}_{{accessory_item_data.OPTM_LINENO}}_{{i}}"
+                                        #accessory_checkbox name="accessory_checkbox_{{accessory_item_data.unique_key}}_{{accessory_item_data.OPTM_LINENO}}_{{i}}"
+                                        (change)="onAccessorySelectionChange(accessory_checkbox.checked,accessory_item_data,accessory_header_data)"
+                                        class="custom-control-input custom-control custom-checkbox" [(checked)]="accessory_item_data.checked">
+                                      <label class="custom-control-label" for="accessory_checkbox_{{accessory_item_data.unique_key}}_{{accessory_item_data.OPTM_LINENO}}_{{i}}"></label>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <span *ngIf="accessory_item_data['OPTM_TYPE']=='2'">{{accessory_item_data.OPTM_ITEMKEY}}</span>
+                                  </td>
+                                  <td>{{accessory_item_data.OPTM_DISPLAYNAME}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div> <!-- panel-body -->
+                        </div><!-- panel-collapse -->
+                      </div> <!-- panel panel-default -->
+                    </div><!--  panel-group -->
+                  </div> <!-- new_tree_structure_area -->
+                </div> <!-- col-sm-12 -->
+
+              </div>
+              <!-- new accessory section -end -->
+              <!-- left section end -->
+
+              <!-- right section start -->
+              <div class="col-md-7 border-left-primary" id="opti_configur-wizard-third-step-rightside">
+                <div class="modal_heading_block" *ngIf="isModelVisible">
+                  <div class="form-group col-md-12 clearfix pl-0 pr-0">
+                    <span class="col-sm-6 bg-light border border-primary">{{language.model}}</span>
+                    <span class="col-sm-6 bg-light border border-primary">{{step2_data.model_code}}</span>
+                    <hr>
+                  </div>
+                </div>
+                <div class="feature_block">
+                  <div class="feature_table">
+                    <div class="">
+                      <kendo-grid [kendoGridBinding]="feature_itm_list_table" [resizable]="true" [sortable]="false"  [height]="350" [groupable]="false" [filterable]="false">
+                        <kendo-grid-messages noRecords="{{this.language.no_items_available}}"> </kendo-grid-messages>
+                        <kendo-grid-column field="step_2_right_grid_feature_name" title="" template="" [width]="120"
+                          [minResizableWidth]="120">
+                          <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                            {{this.language.Output_FeatureName}}
+                          </ng-template>
+                          <ng-template kendoGridCellTemplate let-featurerow>
+                            <span>
+                              <input [disabled]="featurerow.FeatureId" type="hidden" class="form-control  form-control-sm mt3"
+                                id="type_value" value={{featurerow.FeatureId}} title="{{featurerow.FeatureId}}" />
+                              {{featurerow.featureName}}
+                            </span>
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="step_2_right_grid_item" title="" template="" [width]="120"
+                          [minResizableWidth]="120">
+                          <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                            {{this.language.item_code}}
+                          </ng-template>
+                          <ng-template kendoGridCellTemplate let-featurerow>
+                            {{featurerow.Item}}
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="step_2_right_grid_description" title="" template="" [width]="120"
+                          [minResizableWidth]="120">
+                          <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                            {{this.language.Output_ItemDescription}}
+                          </ng-template>
+                          <ng-template kendoGridCellTemplate let-featurerow>
+                            {{featurerow.Description}}
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="step_2_right_grid_quantity" title="" template="" [width]="120"
+                          [minResizableWidth]="120">
+                          <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                            <span class="text-right pull-right">{{this.language.quantity}}</span>
+                          </ng-template>
+                          <ng-template kendoGridCellTemplate let-featurerow>
+                            <input type="text" step="0" class="form-control  form-control-sm mt3" style="text-align:right"
+                              id="quantity" value="{{featurerow.quantity}}" title="{{featurerow.quantity}}" (change)="on_feature_input_change('quantity',quantity.value,featurerow.FeatureId,featurerow.Item)"
+                              #quantity [disabled]="featurerow.isQuantityDisabled" />
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="step_2_right_grid_price" title="" template="" [width]="120"
+                          [minResizableWidth]="120">
+                          <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                            <span class="text-right  pull-right">{{this.language.price}} ({{defaultCurrency}})</span>
+                          </ng-template>
+                          <ng-template kendoGridCellTemplate let-featurerow>
+                            <input [disabled]="featurerow.isPriceDisabled" type="text" #actual_price title="{{featurerow.Actualprice}}"
+                              class="form-control  form-control-sm mt3" style="text-align:right" id="quantity" value={{featurerow.Actualprice}}
+                              (change)="on_feature_input_change('actual_price',actual_price.value,featurerow.FeatureId,featurerow.Item)"
+                              #pricextn />
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="step_2_right_grid_price_extn" title="" template="" [width]="120"
+                          [minResizableWidth]="120">
+                          <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                            <span class="text-right  pull-right">{{this.language.extension}}
+                              ({{defaultCurrency}})</span>
+                          </ng-template>
+                          <ng-template kendoGridCellTemplate let-featurerow>
+                            <input type="text" title="{{featurerow.priceext}}" disabled class="form-control  form-control-sm mt3"
+                              style="text-align:right" id="quantity" value={{featurerow.pricextn}} (change)="on_feature_input_change('priceext',pricextn.value,featurerow.FeatureId,featurerow.Item)"
+                              #pricextn />
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="step_2_right_grid_accessories" title="" template="" [width]="120"
+                          [minResizableWidth]="120">
+                          <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                            {{this.language.Model_Accessory}}
+                          </ng-template>
+                          <ng-template kendoGridCellTemplate let-featurerow>
+                            <!-- {{featurerow.is_accessory}} -->
+                            <span *ngIf="featurerow.is_accessory  == 'N'">
+                              {{this.language.NO}}
+                              <!--  <b class="text-danger"><i class="fa fa-time fa-fw"></i></b> -->
+                            </span>
+                            <span *ngIf="featurerow.is_accessory  == 'Y'">
+                              <!-- <b class="text-success"><i class="fa fa-check fa-fw"></i></b> -->
+                              {{this.language.YES}}
+                            </span>
+                          </ng-template>
+                        </kendo-grid-column>
+                      </kendo-grid>
+
+                    </div>
+                  </div>
+                  <br>
+                  <div class="feature_discount_table">
+                    <div class="col-md-6 pull-right pr-0 ">
+                      <table class="table table-bordered table-sm">
+                        <!-- <thead class="" style=" font-size: 14px; ">
+                          
+                        </thead> -->
+                        <tbody>
+                          <!-- <tr>
+                              <td>
+                                {{this.language.product_tax}}
+                              </td>
+                              <td>{{this.feature_item_tax}}</td>
+                            </tr> -->
+
+                          <tr>
+                            <td width="70%">
+                              {{this.language.product_total}} ({{defaultCurrency}})
+                            </td>
+                            <td width="30%" class="text-right">{{this.step3_feature_price_bef_dis | toFixed:'3'}}</td>
+                          </tr>
+                          <tr>
+                            <td width="70%">
+                              {{this.language.accessories_total}} ({{defaultCurrency}})
+                            </td>
+                            <td class="text-right" width="30%">{{this.step3_acc_price_bef_dis | toFixed:'3'}}</td>
+                          </tr>
+                          <tr>
+                            <td width="70%">
+                              {{this.language.subtotal}} ({{defaultCurrency}})
+                            </td>
+                            <td class="text-right" width="30%">{{this.feature_total_before_discount |
+                              toFixed:'3'}}</td>
+                          </tr>
+
+                          <tr>
+                            <td width="70%">{{language.product_discount}}</td>
+                            <td width="30%">
+                              <input type="text" class="form-control  form-control-sm mt3 text-right" style="height: 25px;     float: right;  text-align: right;     padding-right: 1.5px !important;"
+                                id="product_discount" name="product_discount" #product_discount (change)="on_calculation_change('product_discount',product_discount.value)"
+                                [(ngModel)]="this.feature_discount_percent" />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="70%">
+                              {{this.language.accessories_discount}}
+                            </td>
+                            <td class="text-right" width="30%">
+                              <input type="text" class="form-control  form-control-sm mt3 text-right" style="height: 25px;     float: right;  text-align: right; padding-right: 1.5px !important;"
+                                id="accessory_item_discount" name="accessory_item_discount" #accessory_item_discount
+                                (change)="on_calculation_change('accesory_discount',accessory_item_discount.value)"
+                                [(ngModel)]="this.accessory_discount_percent" />
+                            </td>
+                          </tr>
+
+                          <!-- <tr>
+                              <td>
+                                {{this.language.accessories_tax}}
+                              </td>
+                              <td>{{this.acc_item_tax}}</td>
+                            </tr> -->
+
+
+                          <tr>
+                            <td width="70%"><strong>{{this.language.grand_total}} ({{defaultCurrency}})</strong></td>
+                            <td class="text-right" width="30%">{{this.acc_grand_total | toFixed:'3'}}</td>
+                          </tr>
+
+                        </tbody>
+                        <!-- <tfoot>
+                          
+                        </tfoot> -->
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <!-- right section end -->
+
+            </div>
+          </div>
+        </div>
+        <!-- Model BOM To Configure Product end -->
+        <div class="container-fluid">
+          <div class="row">
+            <div class="f1-buttons col-md-5 pull-left  model_bom_buttons f1_button_top_border_padding">
+              <button type="button" class="btn btn-sm btn-secondary  mr-10 float-left" (click)="onclearselection(1)">
+                <i class="fa fa-times fa-fw"></i> {{language.clear_selection}}</button>
+
+              <div class="opti_add-update-modal ml-5">
+                <div class="opti_select-section float-left">
+                  <select class="ml-10 pl-10 form-control  form-control-sm  thin_select" name="added_model_list" id="added_model_list"
+                    style=" height: calc(1.35rem + 1px) !important; " *ngIf="this.step3_data_final.length > 0" (change)="onAddedModelChange(step2_model_ref.value,'')"
+                    #step2_model_ref>
+                    <option value="" [selected]="step2_selected_model_id == ''">{{language.select_model_on_config}}</option>
+                    <option *ngFor="let model_data of this.step3_data_final" [value]="model_data.rowIndex" [selected]="step2_selected_model_id == model_data.rowIndex">{{model_data.item}}</option>
+                  </select>
+                </div>
+
+                <div class="opti_add-update-modal-btn float-left">
+                  <button type="button" class="btn btn-sm btn-info ml-1 add-update-btn add-btn float-left multiple_model_click_btn"
+                    (click)="add_fg_multiple_model('')" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined && step2_selected_model_id == ''"> <i class="fa fa-plus-square fa-fw"></i>
+                    {{language.add_model}}</button>
+                  <button type="button" class="btn btn-sm btn-info ml-1 add-update-btn update-btn float-left multiple_model_click_btn"
+                    (click)="update_added_model()" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != '' "> <i class="fa fa-plus-square fa-fw"></i>
+                    {{language.update_model}}</button>
+                  <button type="button" class="btn btn-sm ml-1 mb-2 btn-danger" title="{{language.remove_this_modal}}" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != '' " (click)="remove_final_modal(step2_selected_model)">
+                    <i class="fa fa-trash fa-fw"></i>{{language.delete_model}}</button>
+                </div>
+              </div>
+
+            </div>
+            <div class="f1-buttons col-md-7 pull-right f1_button_top_border_padding d-inline-flex align-items-center justify-content-end">
+
+              <span class="output_final_screen_save_button d-inline-flex">
+                <button (click)="onSavePress()" type="button" class="btn btn-sm btn-success  mr-10 ">
+                  <i class="fa fa-check fa-fw"></i> {{language.save}}</button>
+              </span>
+
+              <button type="button" class="btn btn-sm btn-dark  mr-10 btn-previous" data-previous-block="customer_details">
+                <i class="fa fa-arrow-left fa-fw"></i> {{language.previous}}</button>
+
+              <button style="display:none;" id="modelbom_next_click_id" type="button" class="btn btn-sm btn-primary  mr-10 btn-next"
+                data-next-block="accept_bom_so">
+                <!-- (click)="onModelBillNextPress()"-->
+                <i class="fa fa-arrow-right fa-fw"></i> {{language.next}}</button>
+
+              <button *ngIf="validnextbtn" type="button" class="btn btn-sm btn-primary  mr-10" (click)="onValidateNextPress(true, '')">
+                <i class="fa fa-arrow-right fa-fw"></i> {{language.next}}</button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="one_step_block" data-block_id="accept_bom_so">
+        <div class="wizard_heading_section">
+            <div class="container-fluid">
+          <div class="row bg-primary pb-1 pt-1 wizard_font">
+            <div class="col-md-10 pull-left">
+              <i class="fa fa-user fa-fw"></i> {{language.verify_select_final}} </div>
+            <div class="col-md-2 pull-right text-right"> {{language.step_4_5}} </div>
+          </div>
+          </div>
+          <hr>
+        </div>
+
+        <!-- Verify the Selection and Accept -->
+        <div class="form_section" id="opti_configur-wizard-four-step">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-5" id="opti_configur-wizard-four-step-left">
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.order_type}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.document_name}}</label>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.posting_date}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.posting_date | date:
+                    'MM/dd/yyyy' }}</label>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.delivery_date}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.delivery_until | date:
+                    'MM/dd/yyyy'}}</label>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.customer}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.customer}}</label>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.Name}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.customer_name}}</label>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.contact_person}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.person_name}}</label>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.ship_to}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.ship_to}}</label>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.address}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.ship_to_address}}</label>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.bill_to}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.bill_to}}</label>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.address}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.bill_to_address}}</label>
+                </div>
+                <!-- <div class="form-group row clearfix">
+                  <label class="col-sm-6 col-form-label">
+                    <b>{{language.payment_terms}}</b>
+                  </label>
+                  <label class="col-sm-6 col-form-label">{{step1_data.payment_terms}}</label>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-6 col-form-label">
+                    <b>{{language.payment_method}}</b>
+                  </label>
+                  <label class="col-sm-6 col-form-label">{{step1_data.payment_method}}</label>
+                </div> -->
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.sales_employee}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.sales_employee}}</label>
+                </div>
+                <div class="form-group row clearfix">
+                  <label class="col-sm-4 col-form-label">
+                    <b>{{language.remark}}</b>
+                  </label>
+                  <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.remark}}</label>
+                </div>
+              </div>
+              <div class="col-md-7 border-left-primary" id="opti_configur-wizard-four-step-right">
+                <div class="col-md-12 pl-0">
+                  <button type="button" class="mr-10 btn btn-sm btn-outline-danger mb-2" (click)="delete_multiple_final_modal()"
+                    style="display:none;">
+                    <i class="fa fa-trash"></i> {{language.delete}}
+                  </button>
+                </div>
+                <!-- new table with detail -->
+                <kendo-grid class="opti_screen4-detail-row opti_screen4-detail-row-top" [data]="step3_data_final"
+                  [selectable]="false" [resizable]="true">
+                  <!-- <kendo-grid-column title="#" field="rowIndex"></kendo-grid-column> -->
+                  <kendo-grid-column title="{{this.language.serial}}" field="sl_no" [width]="50" [minResizableWidth]="50">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                      {{rowIndex+1}}
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column title="{{this.language.item}}" field="item" [width]="100" [minResizableWidth]="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.item}}
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column title="{{this.language.quantity}}" field="quantity" [width]="100"
+                    [minResizableWidth]="100">
+                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                      <span class="text-right pull-right">{{this.language.quantity}}</span>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <span class="text-right pull-right"> {{dataItem.quantity}}</span>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column title="{{this.language.price}} ({{this.defaultCurrency}})" field="price" [width]="100"
+                    [minResizableWidth]="100">
+                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                      <span class="text-right pull-right">{{this.language.price}} ({{this.defaultCurrency}})</span>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <span class="text-right pull-right"> {{dataItem.price}}</span>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column title="{{this.language.extension}}" field="price_ext" [width]="100"
+                    [minResizableWidth]="100">
+                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                      <span class="text-right pull-right">{{this.language.extension}} ({{this.defaultCurrency}})</span>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <span class="text-right pull-right"> {{dataItem.price_ext}}</span>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column title="{{this.language.discount_per}}" field="feature_discount_percent" [width]="100"
+                    [minResizableWidth]="100">
+                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                      <span class="text-right pull-right">{{this.language.discount_per}}</span>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-row let-dataItem>
+                      <span class="text-right pull-right"> {{dataItem.feature_discount_percent}} </span>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column title="{{this.language.discounted_amount}}  ({{this.defaultCurrency}})" field="discounted_price"
+                    [width]="167" [minResizableWidth]="167">
+                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                      <span class="text-right pull-right">{{this.language.discounted_amount}}
+                        ({{this.defaultCurrency}})</span>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-row let-dataItem>
+                      <span class="text-right pull-right"> {{dataItem.discount_amount}} </span>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column title="{{this.language.gross}}  ({{this.defaultCurrency}})" field="discounted_price"
+                    [width]="100" [minResizableWidth]="100">
+                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                      <span class="text-right pull-right">{{this.language.gross}} ({{this.defaultCurrency}})</span>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-row let-dataItem>
+                      <span class="text-right pull-right"> {{dataItem.discounted_price}} </span>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column field="step_4_right_grid_item" title="" template="" [width]="130"
+                    [minResizableWidth]="120">
+                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                      {{this.language.action}}
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-row>
+                      <button type="button" class="btn btn-sm mr-10 btn-info" (click)="step4_edit_model(row)" title="{{language.edit_this_modal}}">
+                        <i class="fa fa-edit fa-fw"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm mr-10 btn-danger" (click)="remove_final_modal(row)" title="{{language.remove_this_modal}}">
+                        <i class="fa fa-trash fa-fw"></i>
+                      </button>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <ng-template kendoGridDetailTemplate let-dataItem let-column let-columnIndex="columnIndex">
+                    <kendo-grid class="opti_screen4-detail-row opti_screen4-detail-row-btm" [data]="getFeatureHasAccesory(dataItem.feature)"
+                      [selectable]="false" [resizable]="true">
+                      <kendo-grid-messages noRecords="{{this.language.no_accessory_selected}}"> </kendo-grid-messages>
+                      <kendo-grid-column class="k-hierarchy-cell k-header" field="rowIndex" title="rowIndex" [width]="31"
+                        [minResizableWidth]="31"></kendo-grid-column>
+                      <kendo-grid-column field="sl_no" title="{{this.language.serial}}" [width]="50"
+                        [minResizableWidth]="50">
+                        <ng-template kendoGridCellTemplate let-childDataItem let-row let-rowIndex="rowIndex">
+                          {{rowIndex+1}}
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="Item" title="{{this.language.item}}" [width]="100" [minResizableWidth]="100">
+                        <ng-template kendoGridCellTemplate let-childDataItem>
+                          {{childDataItem.Item}}
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="quantity" title="{{this.language.quantity}}" [width]="100"
+                        [minResizableWidth]="100">
+                        <ng-template kendoGridCellTemplate let-childDataItem>
+                          <span class="text-right pull-right"> {{childDataItem.quantity}}</span>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="price" title="{{this.language.price}} ({{this.defaultCurrency}})"
+                        [width]="100" [minResizableWidth]="100">
+                        <ng-template kendoGridCellTemplate let-childDataItem>
+                          <span class="text-right pull-right"> {{childDataItem.Actualprice}} </span>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="pricextn" title="{{this.language.extension}}" [width]="100"
+                        [minResizableWidth]="100">
+                        <ng-template kendoGridCellTemplate let-childDataItem>
+                          <span class="text-right pull-right"> {{childDataItem.pricextn}} </span>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column title="{{this.language.discount_per}}" field="discount_per" [width]="100"
+                        [minResizableWidth]="100">
+                        <ng-template kendoGridCellTemplate let-row let-childDataItem>
+                          <span class="text-right pull-right"> {{childDataItem.discount}} </span>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column title="{{this.language.discounted_amount}}" field="discounted_price" [width]="167"
+                        [minResizableWidth]="167">
+                        <ng-template kendoGridCellTemplate let-row let-childDataItem>
+                          <span class="text-right pull-right"> {{childDataItem.dicount_amount}} </span>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column title="{{this.language.gross}}" field="discounted_price" [width]="100"
+                        [minResizableWidth]="100">
+                        <ng-template kendoGridCellTemplate let-row let-childDataItem>
+                          <span class="text-right pull-right">{{childDataItem.gross}} </span>
+                        </ng-template>
+                      </kendo-grid-column>
+                    </kendo-grid>
+                  </ng-template>
+                </kendo-grid>
+                <!-- new table end with detail -->
+
+
+                <div class="final_item_discount_table">
+                  <div class="col-md-6 pull-right pr-0 mt-4">
+                    <table class="table table-bordered table-sm">
+
+                      <tbody>
+
+                        <tr>
+                          <td width="70%">
+                            {{this.language.product_total}} ({{defaultCurrency}})
+                          </td>
+                          <td class="text-right" width="30%">{{this.step4_final_prod_total | toFixed:'3'}}</td>
+                        </tr>
+                        <tr>
+                          <td width="70%">
+                            {{this.language.accessories_total}} ({{defaultCurrency}})
+                          </td>
+                          <td class="text-right" width="30%">{{this.step4_final_acc_total | toFixed:'3'}}</td>
+                        </tr>
+                        <tr>
+                          <td width="70%">
+                            {{this.language.prod_disc_amount}} ({{defaultCurrency}})
+                          </td>
+                          <td class="text-right" width="30%">{{this.prod_discount_log | toFixed:'3'}}</td>
+                        </tr>
+                        <tr>
+                          <td width="70%">
+                            {{this.language.acc_disc_amount}} ({{defaultCurrency}})
+                          </td>
+                          <td class="text-right" width="30%">{{this.access_dis_amount_log | toFixed:'3'}}</td>
+                        </tr>
+                        <tr>
+                          <td width="70%"><strong>{{this.language.grand_total}} ({{defaultCurrency}})</strong></td>
+                          <td class="text-right" width="70%">{{this.step4_final_grand_total | toFixed:'3'}}</td>
+                        </tr>
+                      </tbody>
+                      <!-- <tfoot>
+                        
+                      </tfoot> -->
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Verify the Selection and Accept -->
+
+        <div class="f1-buttons py-2 border-top">
+          <span class="output_final_screen_save_button">
+            <button (click)="onSavePress()" type="button" class="btn btn-sm btn-success   mr-10">
+              <i class="fa fa-check fa-fw"></i> {{language.save}}</button>
+          </span>
+
+          <button type="button" class="btn btn-sm btn-dark  mr-10 btn-previous" data-previous-block="model_bom_config">
+            <i class="fa fa-arrow-left fa-fw"></i> {{language.previous}}</button>
+
+          <span class="output_final_screen_save_button">
+            <button (click)="onFinishPress('screen4_data', 'finishPress')" *ngIf="step3_data_final.length > 0  && step1_data.document != 'draft'"
+              type="submit" class="btn btn-sm btn-primary mr-10 btn-submit btn-next js-btn-finish" data-next-block="fina_doc_create">
+              <i class="fa fa-check-circle fa-fw"></i> {{language.finish}}</button>
+          </span>
+        </div>
+      </fieldset>
+
+      <fieldset class="one_step_block" data-block_id="fina_doc_create">
+        <div class="wizard_heading_section">
+          <div class="container-fluid">
+            <div class="row bg-primary pb-1 pt-1 wizard_font">
+              <div class="col-md-10 pull-left">
+                <i class="fa fa-user fa-fw"></i> {{language.sales_order_creation}} </div>
+              <div class="col-md-2 pull-right text-right"> {{language.step_5_5}} </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+        <!-- start final document creation -->
+        <div class="form_section" id="opti_configur-wizard-last-step">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-3" id="opti_configur-wizard-last-step-leftside">
+                <div class="new item section">
+                  <h6>{{language.lsit_of_new_item_created}}</h6>
+                  <table *ngIf="new_item_list.length" class="table table-sm table-bordered table-strip">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th>{{this.language.model}}</th>
+                        <th>{{this.language.item_code}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let new_item of new_item_list">
+                        <td>{{new_item.OPTM_FGITEM}} </td>
+                        <td>{{new_item.OPTM_REFITEMCODE}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-sm-9 border-left-primary" id="opti_configur-wizard-last-step-rightside">
+                <div class="customer_detail_section">
+                  <div class="row">
+                    <div class="col-md-12 pr-0">
+                      <div class="pull-right">
+                        <button type="button" (click)="refresh_bom_status()" class="mr-10 btn btn-sm btn-outline-primary refresh_btn">
+                          <span class="showLoader" [hidden]="showFinalLoader">
+                            <i class="fa fa-spinner fa-spin fa-fw"></i> {{this.language.refreshing}}
+                          </span>
+                          <span class="dontShowLoader" [hidden]="dontShowFinalLoader">
+                            <i class="fa fa-refresh fa-fw"></i> {{this.language.refresh}}
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group row clearfix">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.order_type}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{step1_data.document_name}}</label>
+                      </div>
+
+                      <div class="form-group row clearfix">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.order_status}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label">
+                          <b class="final_order_status_class font-weight-light">{{final_order_status}}</b>
+                        </label>
+                      </div>
+
+                      <div class="form-group row clearfix ">
+                        <label class="col-sm-5 col-form-label ">
+                          <b>{{language.ref_doc_no}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{final_document_number}}</label>
+                      </div>
+
+                      <div class="form-group row clearfix">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.ref_doc_entry}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{final_ref_doc_entry}}</label>
+                      </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+
+                      <div class="form-group row clearfix ">
+                        <label class="col-sm-5 col-form-label text-left">
+                          <b>{{language.posting_date}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label text-right font-weight-light">{{step1_data.posting_date |
+                          date: 'MM/dd/yyyy'}}</label>
+                      </div>
+
+                      <div class="form-group row clearfix ">
+                        <label class="col-sm-5 col-form-label text-left">
+                          <b>{{language.delivery_date}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label text-right font-weight-light">{{step1_data.delivery_until
+                          | date: 'MM/dd/yyyy'}}</label>
+                      </div>
+
+                      <div class="form-group row clearfix ">
+                        <label class="col-sm-5 col-form-label text-left">
+                          <b>{{language.configuration_id}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label text-right font-weight-light">{{iLogID}}</label>
+                      </div>
+
+                      <div class="form-group row clearfix ">
+                        <label class="col-sm-5 col-form-label text-left">
+                          <b>{{language.description}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label text-right font-weight-light">{{step1_data.description}}</label>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="order_detail_section">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row clearfix">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.customer}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{step1_data.customer}}</label>
+                      </div>
+
+                      <div class="form-group row clearfix ">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.name}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{step1_data.name}}</label>
+                      </div>
+
+                      <div class="form-group row clearfix ">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.contact_person}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{step1_data.person_name}}</label>
+                      </div>
+
+                      <div class="form-group row clearfix ">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.ship_to}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{step1_data.ship_to}}</label>
+                      </div>
+
+                      <div class="form-group row clearfix ">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.address}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{step1_data.ship_to_address}}</label>
+                      </div>
+
+                      <div class="form-group row clearfix ">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.bill_to}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{step1_data.bill_to}}</label>
+
+                      </div>
+
+                      <div class="form-group row clearfix ">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.address}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{step1_data.bill_to_address}}</label>
+                      </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+
+
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="pricing_detail_section">
+                  <div class="row">
+                    <!-- <div class="col-md-3"> </div> -->
+                    <div class="col-md-12 pr-0">
+                      <div class="accessories_table">
+                        <!-- new table with detail -->
+                        <!-- new table with detail -->
+                        <kendo-grid (detailExpand)="colSpanValue($event)" class="opti_screen4-detail-row opti_screen4-detail-row-top opti_screen4-detail-row-lastchildTable"
+                          [data]="step3_data_final" [resizable]="true" [selectable]="false">
+                          <!-- <kendo-grid-column title="#" field="rowIndex"></kendo-grid-column> -->
+                          <kendo-grid-column title="{{this.language.serial}}" field="sl_no" [width]="50"
+                            [minResizableWidth]="50">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                              {{rowIndex+1}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column title="{{this.language.item}}" field="item" [width]="100"
+                            [minResizableWidth]="100">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.item}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column title="{{this.language.quantity}}" field="quantity" [width]="100"
+                            [minResizableWidth]="100">
+                            <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                              <span class="text-right pull-right">{{this.language.quantity}}</span>
+                            </ng-template>
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              <span class="text-right pull-right"> {{dataItem.quantity}}</span>
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column title="{{this.language.price}} ({{this.defaultCurrency}})" field="price"
+                            [width]="100" [minResizableWidth]="100">
+                            <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                              <span class="text-right pull-right">{{this.language.price}} ({{this.defaultCurrency}})</span>
+                            </ng-template>
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              <span class="text-right pull-right"> {{dataItem.price}}</span>
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column title="{{this.language.extension}}" field="price_ext" [width]="100"
+                            [minResizableWidth]="100">
+                            <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                              <span class="text-right pull-right">{{this.language.extension}}
+                                ({{this.defaultCurrency}})</span>
+                            </ng-template>
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              <span class="text-right pull-right"> {{dataItem.price_ext}}</span>
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column title="{{this.language.discount_per}}" field="feature_discount_percent"
+                            [width]="100" [minResizableWidth]="100">
+                            <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                              <span class="text-right pull-right">{{this.language.discount_per}}</span>
+                            </ng-template>
+                            <ng-template kendoGridCellTemplate let-row let-dataItem>
+                              <span class="text-right pull-right"> {{dataItem.feature_discount_percent}} </span>
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column title="{{this.language.discounted_amount}}  ({{this.defaultCurrency}})"
+                            field="discounted_price" [width]="167" [minResizableWidth]="167">
+                            <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                              <span class="text-right pull-right">{{this.language.discounted_amount}}
+                                ({{this.defaultCurrency}})</span>
+                            </ng-template>
+                            <ng-template kendoGridCellTemplate let-row let-dataItem>
+                              <span class="text-right pull-right"> {{dataItem.discount_amount}} </span>
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column title="{{this.language.gross}}  ({{this.defaultCurrency}})" field="discounted_price"
+                            [width]="100" [minResizableWidth]="100">
+                            <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                              <span class="text-right pull-right">{{this.language.gross}} ({{this.defaultCurrency}})</span>
+                            </ng-template>
+                            <ng-template kendoGridCellTemplate let-row let-dataItem>
+                              <span class="text-right pull-right"> {{dataItem.discounted_price}} </span>
+                            </ng-template>
+                          </kendo-grid-column>
+                          <ng-template kendoGridDetailTemplate let-dataItem let-column let-columnIndex="columnIndex">
+                            <kendo-grid class="opti_screen4-detail-row opti_screen4-detail-row-btm" [data]="getFeatureHasAccesory(dataItem.feature)"
+                              [selectable]="false" [resizable]="true">
+                                <kendo-grid-messages noRecords="{{this.language.no_accessory_selected}}"> </kendo-grid-messages>
+                              <kendo-grid-column class="k-hierarchy-cell k-header" field="rowIndex" title="rowIndex"
+                                [width]="50" [minResizableWidth]="50"></kendo-grid-column>
+                              <kendo-grid-column field="sl_no" title="{{this.language.serial}}" [width]="50"
+                                [minResizableWidth]="50">
+                                <ng-template kendoGridCellTemplate let-childDataItem let-row let-rowIndex="rowIndex">
+                                  {{rowIndex+1}}
+                                </ng-template>
+                              </kendo-grid-column>
+                              <kendo-grid-column field="Item" title="{{this.language.item}}" [width]="100"
+                                [minResizableWidth]="100">
+                                <ng-template kendoGridCellTemplate let-childDataItem>
+                                  {{childDataItem.Item}}
+                                </ng-template>
+                              </kendo-grid-column>
+                              <kendo-grid-column field="quantity" title="{{this.language.quantity}}" [width]="100"
+                                [minResizableWidth]="100">
+                                <ng-template kendoGridCellTemplate let-childDataItem>
+                                  <span class="text-right pull-right"> {{childDataItem.quantity}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+                              <kendo-grid-column field="price" title="{{this.language.price}} ({{this.defaultCurrency}})"
+                                [width]="100" [minResizableWidth]="100">
+                                <ng-template kendoGridCellTemplate let-childDataItem>
+                                  <span class="text-right pull-right"> {{childDataItem.Actualprice}} </span>
+                                </ng-template>
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pricextn" title="{{this.language.extension}}" [width]="100"
+                                [minResizableWidth]="100">
+                                <ng-template kendoGridCellTemplate let-childDataItem>
+                                  <span class="text-right pull-right"> {{childDataItem.pricextn}} </span>
+                                </ng-template>
+                              </kendo-grid-column>
+                              <kendo-grid-column title="{{this.language.discount_per}}" field="discount_per" [width]="100"
+                                [minResizableWidth]="100">
+                                <ng-template kendoGridCellTemplate let-row let-childDataItem>
+                                  <span class="text-right pull-right"> {{childDataItem.discount}} </span>
+                                </ng-template>
+                              </kendo-grid-column>
+                              <kendo-grid-column title="{{this.language.discounted_amount}}  ({{this.defaultCurrency}})"
+                                field="discounted_price" [width]="167" [minResizableWidth]="167">
+                                <ng-template kendoGridCellTemplate let-row let-childDataItem>
+                                  <span class="text-right pull-right">{{childDataItem.dicount_amount}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+                              <kendo-grid-column title="{{this.language.gross}}" field="discounted_price" [width]="100"
+                                [minResizableWidth]="100">
+                                <ng-template kendoGridCellTemplate let-row let-childDataItem>
+                                  <span class="text-right pull-right"> {{childDataItem.gross}} </span>
+                                </ng-template>
+                              </kendo-grid-column>
+                            </kendo-grid>
+                          </ng-template>
+                        </kendo-grid>
+                        <!-- new table end with detail -->
+                        <!-- new table end with detail -->
+                      </div>
+                      <br>
+                    </div>
+                  </div>
+                  <div class="">
+                    <div class="col-md-6 pull-left">
+                      <div class="form-group row clearfix">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.sales_employee}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{step1_data.sales_employee}}</label>
+                      </div>
+                      <div class="form-group row clearfix">
+                        <label class="col-sm-5 col-form-label">
+                          <b>{{language.remark}}</b>
+                        </label>
+                        <label class="col-sm-7 col-form-label font-weight-light">{{step1_data.remark}}</label>
+                      </div>
+                    </div>
+                    <div class="item_discount_table">
+                      <div class="col-md-4 pull-right">
+                        <table class="table table-bordered table-sm">
+                          <thead class="" style=" font-size: 14px; ">
+                            <tr>
+                              <td>
+                                {{this.language.product_total}} ({{defaultCurrency}})
+                              </td>
+                              <td class="text-right mr-3">{{this.step4_final_prod_total | toFixed:'3'}}</td>
+                            </tr>
+                            <tr>
+                              <td>
+                                {{this.language.accessories_total}} ({{defaultCurrency}})
+                              </td>
+                              <td class="text-right mr-3">{{this.step4_final_acc_total | toFixed:'3'}}</td>
+                            </tr>
+                            <tr>
+                              <td width="70%">
+                                {{this.language.prod_disc_amount}} ({{defaultCurrency}})
+                              </td>
+                              <td class="text-right" width="30%">{{this.prod_discount_log | toFixed:'3'}}</td>
+                            </tr>
+                            <tr>
+                              <td width="70%">
+                                {{this.language.acc_disc_amount}} ({{defaultCurrency}})
+                              </td>
+                              <td class="text-right" width="30%">{{this.access_dis_amount_log | toFixed:'3'}}</td>
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr style=" font-size: 14px; ">
+                              <th>{{this.language.grand_total}} ({{defaultCurrency}})</th>
+                              <td class="text-right mr-3">{{this.step4_final_grand_total | toFixed:'3'}}</td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end final document creation -->
+
+        <div class="f1-buttons py-2 border-top">
+          <button type="button" class="btn btn-sm btn-primary  mr-10 text-white" (click)="start_new_configuration_click()">
+            <i class="fa fa-arrow-left fa-fw"></i> {{language.start_new_configuration}}
+          </button>
+
+        </div>
+      </fieldset>
+
+    </form>
+  </div>
+</div>
+
+
+<!--Custom Dialog-->
+<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)"></app-custom-dialogs>
+
+<span [hidden]="showLookupLoader">
+  <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"
+    [selectedImage]="selectedImage"></app-lookup>
+</span>

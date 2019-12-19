@@ -1,0 +1,22 @@
+<!-- confirm dialog modal -->
+<div class="modal custom_modal_confirm_box" id="custom_dialog_box" tabindex="-1" role="dialog" aria-labelledby="custom_dialog_box" aria-hidden="true"
+    data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog  modal-sm top-45" role="document">
+        <div class="modal-content">
+            <div class="modal-header header_custom btn-dark" >
+                <h5 class="modal-title" id="custom_dialog_box_title"><i class="fa fa-exclamation-triangle"></i> Confirm</h5>
+            </div>
+            <div class="modal-body custom_height_width">
+             {{message}}
+            </div>
+            <div class="modal-footer footer_custom py-2">
+                <button class="btn btn-sm btn-danger mr-10 padding_5px_imp" type="button" (click)="onOKPress()">
+                    <i class="fa fa-check-square fa-fw"></i> 
+                  </button>
+                <button class="btn btn-sm btn-secondary padding_5px_imp" type="button" (click)="onCancelPress()">
+                    <i class="fa fa-times fa-fw"></i>
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>

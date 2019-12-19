@@ -1,0 +1,143 @@
+<!-- loader start -->
+<div class="opti_loader opti_loader-module-grid-list" *ngIf="showLoader">
+    <div class="opti_spinner"></div>
+</div>
+<!-- loader end -->
+
+<!-- loader start for lookup -->
+<div class="opti_loader opti_loader-module-grid-list opti_lookup-loader" *ngIf="showLookupLoader">
+    <div class="opti_spinner"></div>
+</div>
+<!-- loader end for lookup -->
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+    <div class="opti_module-title">{{page_main_title}}</div>
+</div>
+
+<div class="card mb-3 opti_global-table-view">
+    <div class="card-body py-1">
+
+        <div class="container-fluid">
+            <div class="row" style="margin-bottom:6px;">
+                <div class="col-sm-6 p-0">
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group mr-2">
+                            <button type="button" routerLink="{{add_route_link}}"
+                                class="mr-10 btn btn-sm btn-outline-primary">
+                                <i class="fa fa-plus"></i> {{language.add}}
+                            </button>
+                            <button type="button" class="mr-10 btn btn-sm btn-outline-danger" (click)="delete()">
+                                <i class="fa fa-trash"></i> {{language.delete}}
+                            </button>
+                            <!-- <button type="button" (click)="openImportPopup()" class="mr-10 btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#import_modal"
+                                *ngIf="showImportButton">
+                                <i class="fa fa-plus fa-fw"></i> {{language.import}}
+                            </button> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 p-0">
+                    <div class="float-right"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="opti_grid-table-outer">
+            <div class="opti_pagelimit-container">
+                <kendo-dropdownlist [data]="listItems" (selectionChange)="getcurrentPageSize($event)"
+                    [(ngModel)]="selectedValue"></kendo-dropdownlist>
+            </div>
+            <kendo-grid [kendoGridBinding]="this.dataArray" [filterable]="isColumnFilter" [selectable]="true"
+                [pageSize]="getPageValue()" [pageable]="true" [resizable]="true"
+                (selectionChange)="on_selection($event)" [sortable]="{  allowUnsort: allowUnsort,  mode: 'single'  }"
+                [sort]="sort" (sortChange)="sortChange($event)">
+                <ng-template kendoGridToolbarTemplate>
+                    <form class="k-form opti_show-hide-grid-column-filter float-left opti_hide-in-mobile p-0 pl-2">
+                        <div class="custom-control custom-checkbox float-left">
+                            <input #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter"
+                                (change)="saveFilterState()" class="custom-control-input" name="columnfilter" />
+                            <label class="custom-control-label" for="columnFilter"> {{language.enable_filter}}</label>
+                        </div>
+                    </form>
+                </ng-template>
+
+                <kendo-grid-column field="checkbox" [sortable]="false" title="checkbox" filter="numeric" [width]="38"
+                    [minResizableWidth]="38" class="text-center" headerClass="text-center" [filterable]="false">
+                    <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue
+                                (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)"
+                                id="parent_checkbox_{{rowIndex}}" [checked]=selectall class="custom-control-input">
+                            <label class="custom-control-label" for="parent_checkbox_{{rowIndex}}"></label>
+                        </div>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="child_checkbox" #checkedvalue
+                                (change)="on_checkbox_checked(checkedvalue.checked,dataItem)" [checked]=selectall
+                                id="child_checkbox_{{rowIndex}}" class="custom-control-input">
+                            <label class="custom-control-label" for="child_checkbox_{{rowIndex}}"></label>
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column *ngFor="let column of columns" field="{{column.field}}" title="{{column.title}}"
+                    filter="{{column.type}}" format="{{column.format}}" width="{{column.width}}"
+                    minResizableWidth="{{column.width}}">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <ng-container *ngIf="column.attrType == 'link'">
+
+                            <a class="common_grid_link" (click)="button_click1(dataItem)">{{dataItem[column.field]}}</a>
+
+                        </ng-container>
+
+                        <ng-container *ngIf="column.attrType == 'text'">{{dataItem[column.field]}}</ng-container>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column [sortable]="false" field="action" title="{{language.action}}" filter="numeric"
+                    [width]="149" [minResizableWidth]="149" [filterable]="false">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <button type="button" class="btn btn-sm mr-10 {{button1_color}}" *ngIf="show_button1"
+                            (click)="button_click1(dataItem)" title="{{button1_title}}">
+                            <i class="{{button1_icon}}"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm mr-10 {{button2_color}}" *ngIf="show_button2"
+                            (click)="button_click2(dataItem)" title="{{button2_title}}">
+                            <i class="{{button2_icon}}"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-sm mr-10 {{button3_color}}" *ngIf="show_button3"
+                            (click)="show_association(dataItem)" title="{{button3_title}}">
+                            <i class="{{button3_icon}}"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-sm mr-10 {{button3_color}}"
+                            *ngIf="feature_model_button && dataItem.OPTM_TYPE != undefined && dataItem.OPTM_TYPE == 'Feature'"
+                            (click)="show_association(dataItem)" title="{{button3_title}}">
+                            <i class="{{button3_icon}}"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-sm mr-10 {{button4_color}}" *ngIf="show_button4"
+                            (click)="duplicate_record(dataItem)" title="{{button4_title}}">
+                            <i class="{{button4_icon}}"></i>
+                        </button>
+                    </ng-template>
+
+                </kendo-grid-column>
+            </kendo-grid>
+        </div>
+    </div>
+</div>
+
+<!--Custom Dialog-->
+<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)">
+</app-custom-dialogs>
+
+<span [hidden]="showLookupLoader">
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event) "
+        [selectedImage]="selectedImage"></app-lookup>
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event) "
+        [selectedImage]="selectedImage"></app-lookup>
+</span>

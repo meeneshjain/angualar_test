@@ -1,0 +1,69 @@
+<!-- loader start -->
+<div class="opti_loader opti_loader-module-grid-list" *ngIf="showLoader">
+	<div class="opti_spinner"></div>
+</div>
+<!-- loader end --> 
+
+<!-- loader start for lookup -->
+<div class="opti_loader opti_loader-module-grid-list opti_lookup-loader" *ngIf="showLookupLoader">
+	<div class="opti_spinner"></div>
+</div>
+<!-- loader end for lookup --> 
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+	<div class="opti_module-title"> {{page_main_title}}</div>
+
+</div>
+<ol class="breadcrumb breadcrumb_mini_margin">
+	<li class="breadcrumb-item ">
+		<a routerLink="{{view_route_link}}" href="javascript:;">{{page_main_title}}</a>
+	</li>
+	<!-- <li class="breadcrumb-item active">{{section_title}}</li> -->
+</ol>
+<div class="card mb-3">
+	<form class="form-horizontal">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group row clearfix">
+						<label class="col-sm-4 col-form-label" for="feature"> {{language.hidden_item_text_on_report}}</label>
+						<div class="col-sm-5">
+							<input type="text" id="codeID" name="codeName" maxlength="50" class="form-control  form-control-sm mt3" placeholder="{{language.hidden_item_text_on_report}}"
+							[(ngModel)]="settings_data.report_hidden_item_text" title="{{settings_data.report_hidden_item_text}}" #inputBox >
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card-footer small text-muted">
+            <div class="footer-buttons">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="pull-left">
+                            <button type="button" (click)="onUpdateClick()" class="btn btn-sm btn-primary mr-10">
+                                <i class="fa fa-save"></i> {{language.update}}
+                            </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="pull-right">
+
+                        <button type="button" routerLink="{{view_route_link}}" class="btn btn-sm btn-sm btn-secondary">
+                            <i class="fa fa-times"></i>
+                            <span> {{language.cancel}}</span>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	</form>
+</div>
+
+<!-- <span [hidden]="showLookupLoader">
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event) " [selectedImage]="selectedImage"></app-lookup>
+</span> -->
+
+<!--Custom Dialog-->
+<!-- <app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)"></app-custom-dialogs> -->

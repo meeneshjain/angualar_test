@@ -1,0 +1,4 @@
+(function() {
+var toc =  [{"type":"item","name":"Login Screen","url":"Login_Screen.htm"},{"type":"item","name":"Home Page","url":"New_Topic.htm"},{"type":"item","name":"System Info","url":"System_Info.htm"},{"type":"item","name":"Item Code Generation","url":"Item_Code_Generation.htm"},{"type":"item","name":"Model /Feature Master","url":"Model__Feature_Master.htm"},{"type":"item","name":"Feature BOM","url":"Feature_BOM.htm"},{"type":"item","name":"Model BOM","url":"Model_BOM.htm"},{"type":"item","name":"Routing","url":"Routing.htm"},{"type":"item","name":"Rule Workbench","url":"Rule_Workbench.htm"},{"type":"item","name":"Configuration Wizard","url":"Configuration_Wizard.htm"}];
+window.rh.model.publish(rh.consts('KEY_TEMP_DATA'), toc, { sync:true });
+})();

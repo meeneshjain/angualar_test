@@ -1,0 +1,170 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark navbar-custom-sm" *ngIf="showHeader" id="opti_topbar">
+  <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" style="display:block;">
+    <i class="fa fa-bars"></i>
+  </button> 
+
+  <!-- Navbar Search -->
+  <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    <div class="input-group">
+      <input type="hidden" class="form-control form-control-sm header_input_field" aria-label="Search" aria-describedby="basic-addon2">
+      <div class="input-group-append">
+        <button class="btn btn-primary search_button " style="display:none;" type="button">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Navbar -->
+
+  <ul class="navbar-nav ml-auto ml-md-0  ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    <li class="nav-item dropdown no-arrow li_with_dd">
+      <a class="nav-link custom_menu_click" href="javascript:;" id="userDropdown">
+        <i class="fa fa-user-circle fa-fw" style="color: white;"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right custom_menu_click_option" aria-labelledby="userDropdown">
+        <!--    <a class="dropdown-item" href="javascript:;"><i class="fa fa-user fa-fw"></i> {{this.user_profile}}</a>
+        <a class="dropdown-item" href="javascript:;"><i class="fa fa-cogs fa-fw"></i> {{this.preferences}}</a> 
+        <div class="dropdown-divider"></div>
+      -->
+      <a class="dropdown-item" routerLink="system-settings" ><i class="fa fa-cogs fa-fw"></i>  {{this.preferences}}</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="javascript:;" (click)="open_info_popup()"><i class="fa fa-info-circle fa-fw"></i>  {{this.about}}</a>
+      <div class="dropdown-divider"></div>
+      
+      <a class="dropdown-item" href="{{user_guide_link}}" target="_blank" ><i class="fa fa-question fa-fw"></i> {{this.help}}</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="javascript:;" (click)="logout()"> <i class="fa fa-sign-out fa-fw"></i> {{this.signout}}</a>
+    </div>
+  </li>
+</ul>
+
+</nav>
+
+<div class="modal fade" id="about_info" tabindex="-1" role="dialog" aria-labelledby="about_info" aria-hidden="true"
+data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog  modal-md" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="about_info_title">{{about}}</h5>
+      <button class="close" type="button" data-dismiss="modal" aria-label="Close" (click)="close_about_modal()">
+        <i class="k-icon k-i-x"></i>
+      </button>
+    </div>
+    <div class="modal-body pt-4 pb-4">
+      <div class="lookup_data px-sm-5">
+        <div class="row">
+          <div class="col-12">
+            <img alt="logo" class="d-flex mb-4 ml-auto mr-auto w-50" src="assets/images/logo_configurator/logo/logo1.png">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12"> 
+            <div class="row">
+              <div class="col-12">
+                <h5 class="text-center mb-2 pb-2 border-bottom">{{language.system}}</h5>
+              </div>
+            </div>
+            <div class="row align-items-center">
+              <div class="col-sm-4 col-md-6">
+                <b>{{language.app_name}}</b>
+              </div>
+              <div class="col-sm-8 col-md-6">
+                {{this.project_name | blankhandler}}
+              </div>
+            </div> 
+            <hr>
+            <div class="row align-items-center">
+              <div class="col-sm-4 col-md-6">
+                <b>{{language.version}}</b>
+              </div>
+              <div class="col-sm-8 col-md-6">
+                {{ this.version | blankhandler}}
+              </div>
+            </div> 
+            <hr>
+            <div class="row">
+              <div class="col-12">
+                <h5 class="text-center mt-2 mb-2 pb-2 border-bottom">{{language.user}}</h5>
+              </div>
+            </div>
+
+            <div class="row align-items-center">
+              <div class="col-sm-4 col-md-6">
+                <b>{{language.username}}</b>
+              </div>
+              <div class="col-sm-8 col-md-6">
+                {{ this.username | blankhandler}}
+              </div>
+            </div>
+            <hr>
+            <div class="row align-items-center">
+              <div class="col-sm-4 col-md-6">
+                <b>{{language.company}}</b>
+              </div>
+              <div class="col-sm-8 col-md-6">
+                {{ this.company | blankhandler}}
+              </div>
+            </div> 
+            <hr>
+            <div class="row align-items-center">
+              <div class="col-sm-4 col-md-6">
+                <b>{{language.language}}</b>
+              </div>
+              <div class="col-sm-8 col-md-6">
+                {{ this.language_current | blankhandler}}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- <div class="modal fade" id="help_popup" tabindex="-1" role="dialog" aria-labelledby="help_popup" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-sm-12 row">
+                    <div class="col-sm-6">
+                        <h5 class="modal-title" id="help_popup_title">{{popup_title}}</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="text-right pull-right close" type="button" data-dismiss="modal" (click)="close_lookup()"
+                        aria-label="Close">
+                        <span aria-hidden="true">
+                            <i class="fa fa-window-close"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-body" *ngIf="show_pdf != ''">
+            <iframe id="user_guide_iframe" style="border:1px solid #666CCC" title="{{popup_title}}" [src]="show_pdf | safe" frameborder="1" scrolling="auto" height="800" width="760" ></iframe>
+        </div> 
+    </div>
+</div>
+
+</div> -->
+
+
+<!-- <div class="k-overlay" *ngIf="dialogOpened"></div>
+<div class="custom-window-wrapper" *ngIf="dialogOpened">
+  <div class="custom-window-innner">
+    <kendo-window [draggable]="isDraggable" (close)="close_lookup()" [minWidth]="850" [width]="850" [height]="800" >
+      <kendo-window-titlebar>
+        <div class='k-window-title'>{{popup_title}}</div>
+        <button kendoWindowMaximizeAction></button>
+        <button kendoWindowRestoreAction></button>
+        <button kendoWindowCloseAction></button>
+      </kendo-window-titlebar>
+      <div class="w-100 h-100" *ngIf="show_pdf != ''">
+        <iframe id="user_guide_iframe" style="border:1px solid #666CCC" title="{{popup_title}}" [src]="show_pdf | safe" frameborder="0" scrolling="auto"  style="overflow:hidden;height:100%;width:100%" height="100%" width="100%" ></iframe>
+      </div>      
+    </kendo-window >
+  </div>
+</div> -->

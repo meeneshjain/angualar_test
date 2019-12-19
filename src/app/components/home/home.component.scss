@@ -1,0 +1,13 @@
+.opti_vertical-align{
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+
+    height: calc(100vh - 60px);
+    width: 100%;
+    text-align: center;
+}
+
+.opti_dash-version{
+    line-height: 50px;
+}

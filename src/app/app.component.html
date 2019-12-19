@@ -1,0 +1,16 @@
+<div id="page-top">    
+    <div id="wrapper" >
+        <app-sidebar class="" *ngIf="showSidebar"></app-sidebar>
+        <div id="content-wrapper" class="{{main_class}}">
+            <app-header></app-header>
+            <div class="container-fluid">
+                <router-outlet></router-outlet>
+            </div> <!-- /.container-fluid -->
+        </div> <!-- /.content-wrapper -->
+        <app-footer></app-footer>
+    </div> <!-- /#wrapper -->
+    <a class="scroll-to-top rounded gototop" href="javascript:;">
+        <i class="fa fa-angle-up"></i>
+    </a> 
+</div>
+ <div kendoWindowContainer></div>

@@ -1,0 +1,27 @@
+
+<a class="navbar-brand" href="/home" routerLink="/home">
+  <img src="{{imgPath}}/logo_configurator/logo/128.png" alt="logo">
+</a>
+<a class="navbar-brand-sm" href="/home" routerLink="/home">
+  <img src="{{imgPath}}/logo_configurator/icon/128_icon.png" alt="logo">
+</a>
+
+<ul class="sidebar navbar-nav sidebar_top_margin-3" id="opti_sidebar">
+  
+  <li class="nav-item " (click)="onMenuPressHome('home')" [ngClass]="{'active': selectedItem == 'home'}" title="{{this.language.dashboard}}">
+    <a class="nav-link" routerLink="home" href="javascript:;">
+      <img src="{{imgPath}}/leftpanel/home.svg" width="25px" height="25px;">
+      <span>{{this.language.dashboard}}</span>
+    </a>
+  </li>
+
+  <ng-container *ngFor="let menuRow of menu_obj, let i = index">
+      <li class="nav-item" (click)="onMenuPress(getMenuDetails(menuRow.menu_code), i, getMenuDetails(menuRow.menu_code)[0].menu_code)"
+        routerLink="{{(getMenuDetails(menuRow.menu_code))[0].router_link}}" [ngClass]="{'active': selectedItem == getMenuDetails(menuRow.menu_code)[0].menu_code}" title="{{getMenuDetails(menuRow.menu_code)[0].menu_title}}">
+        <a class="nav-link" href='javascript:;' >
+          <img src="{{getMenuDetails(menuRow.menu_code)[0].icon_path}}" width="25px" height="25px;" >
+          <span>{{getMenuDetails(menuRow.menu_code)[0].menu_title}}</span>
+        </a>
+      </li>
+  </ng-container>  
+</ul>
